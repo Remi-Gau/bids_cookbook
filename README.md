@@ -18,8 +18,11 @@ Place and unzip the zip files in `source` folder and run
 
 # How to cook a BIDS dataset by hand and from scratch
 
-This a simple recipe to convert your neuroimaging data into a valid BIDS
-dataset.
+<h3> 
+    This a simple recipe to convert your neuroimaging data into a valid BIDS dataset.
+</h3>
+
+You 
 
 **table of content**
 
@@ -59,13 +62,17 @@ Get them fresh from your local ~~market~~:
 <br>
 
 <details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </font> </summary><br>
-    We will work with the <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">multi-modal face dataset from SPM</a>.
-    <br>
-    This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm. 
-    <br>
-    Very often MRI source ata will be in a DICOM format and will required to be converted.
-    Here the MRI data is in 3D Nifti Nifti  format <code>.hdr/.img</code> and 
-    we will need to change that to a 4D Nifti <code>.nii</code> format
+    <p> 
+        We will work with the <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">multi-modal face dataset from SPM</a>. 
+    </p>
+    <p> 
+        This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
+    </p>
+    <p>
+        Very often MRI source ata will be in a DICOM format and will required to be converted.
+        Here the MRI data is in 3D Nifti Nifti  format <code>.hdr/.img</code> and 
+        we will need to change that to a 4D Nifti <code>.nii</code> format.
+    </p>
 </details>
 
 <br>
@@ -73,9 +80,9 @@ Get them fresh from your local ~~market~~:
 <details><summary> <b> 🖋 a text editor </b> </font> </summary><br>
     Several common options top choose from:
     <ul>
-        <li><a href="https://code.visualstudio.com" target="_blank">visual studio code</a></li>
-        <li><a href="https://www.sublimetext.com/" target="_blank">sublime</a></li>
-        <li><a href="https://atom.io/" target="_blank">atom</a></li>
+        <li><a href="https://code.visualstudio.com" target="_blank">Visual Studio code</a></li>
+        <li><a href="https://www.sublimetext.com/" target="_blank">Sublime</a></li>
+        <li><a href="https://atom.io/" target="_blank">Atom</a></li>
         <li>Notepad does not count.</li>
     </ul>
 </details>
@@ -101,7 +108,7 @@ Create a `raw` folder to host your BIDS data and inside it create:
 - a subject folder: `sub-01`
   - with session folder: `ses-mri`
     - with an `anat` folder for the structural MRI data
-    - with an `anat` folder for the functional MRI data
+    - with an `func` folder for the functional MRI data
 
 By now you should have this.
 
@@ -118,10 +125,19 @@ By now you should have this.
 
 ### 2. Starters: converting the MRI anatomical file
 
-in matlab launch SPM Batch --> SPM --> Utils --> 3D to 4D File conversion save
-the batch in `code/conversion`
+- In Matlab launch SPM
 
-### Cooking is not just about the taste, it is also about how things look: naming files
+```matlab
+SPM fmri
+```
+
+- In SPM
+    - `Batch --> SPM --> Utils --> 3D to 4D File conversion`
+    - select the `*.img` file to convert
+    - keep track of what you did by saving the batch in `code/conversion`
+    - run the batch
+
+### 3. Cooking is not just about the taste, it is also about how things look: naming files
 
 - extension 
 - suffix 
@@ -131,9 +147,11 @@ the batch in `code/conversion`
 
 - entity table
 
-### Taste your dish while you prepare it: using the BIDS validator
+### 4. Taste your dish while you prepare it: using the BIDS validator
 
-### Season to taste: adding missing files
+https://bids-standard.github.io/bids-validator/
+
+### 5. Season to taste: adding missing files
 
 - `dataset_description.json`
 - `README`
