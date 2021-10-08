@@ -1,366 +1,365 @@
 function convert_spm_multimodal_ds()
-    %
-    % Converts the multimodal dataset from SPM and to BIDS
-    %
-    % Source: https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/
-    %
-    % Requires BIDS matlab
-    %
-    % Script adapted from its counterpart for MoAE
-    % <https://www.fil.ion.ucl.ac.uk/spm/download/data/MoAEpilot/MoAE_convert2bids.m>
-    %
-    % (C) Copyright 2021 CPP_SPM developers
+  %
+  % Converts the multimodal dataset from SPM and to BIDS
+  %
+  % Source: https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/
+  %
+  % Requires BIDS matlab
+  %
+  % Script adapted from its counterpart for MoAE
+  % <https://www.fil.ion.ucl.ac.uk/spm/download/data/MoAEpilot/MoAE_convert2bids.m>
+  %
+  % (C) Copyright 2021 Remi Gau
 
-    % TODO
-    % - HED tags
+  % TODO
+  % - HED tags
 
-    download = false;
+  download = false;
 
-    subject_label = '01';
+  subject_label = '01';
 
-    task_name = 'FaceSymmetry';
+  task_name = 'FaceSymmetry';
 
-    func.nb_slices = 32;
-    func.repetition_time = 2;
-    func.discarded_volumes = 5;
-    func.manufacturer = 'Siemens';
-    func.model = 'TIM Trio';
-    func.field_strength = 3;
+  func.nb_slices = 32;
+  func.repetition_time = 2;
+  func.discarded_volumes = 5;
+  func.manufacturer = 'Siemens';
+  func.model = 'TIM Trio';
+  func.field_strength = 3;
 
-    anat.manufacturer = 'Siemens';
-    anat.model = 'Sonata';
-    anat.field_strength = 1.5;
+  anat.manufacturer = 'Siemens';
+  anat.model = 'Sonata';
+  anat.field_strength = 1.5;
 
-    opt.indent = ' ';
+  opt.indent = ' ';
 
-    % URL of the data set to download
-    URL = 'http://www.fil.ion.ucl.ac.uk/spm/download/data/face_rep/face_rep.zip';
+  % URL of the data set to download
+  URL = 'http://www.fil.ion.ucl.ac.uk/spm/download/data/face_rep/face_rep.zip';
 
-    working_directory = fileparts(mfilename('fullpath'));
-    input_dir = fullfile(working_directory, '..', 'source');
-    output_dir = fullfile(working_directory, '..', 'raw');
+  working_directory = fileparts(mfilename('fullpath'));
+  input_dir = fullfile(working_directory, '..', 'source');
+  output_dir = fullfile(working_directory, '..', 'raw');
 
-    % clean previous runs
-    try
-        rmdir(output_dir, 's');
-    catch
-    end
+  % clean previous runs
+  try
+    rmdir(output_dir, 's');
+  catch
+  end
 
-    spm_mkdir(output_dir);
+  spm_mkdir(output_dir);
 
-    downwload_data(input_dir, working_directory, download);
+  downwload_data(input_dir, working_directory, download);
 
-    %% Create ouput folder structure
-    spm_mkdir(output_dir, ['sub-' subject_label], {'ses-mri'}, {'anat', 'func'});
-    spm_mkdir(output_dir, ['sub-' subject_label], {'ses-eeg'}, {'eeg'});
-    spm_mkdir(output_dir, ['sub-' subject_label], {'ses-meg'}, {'meg'});
+  %% Create ouput folder structure
+  spm_mkdir(output_dir, ['sub-' subject_label], {'ses-mri'}, {'anat', 'func'});
+  spm_mkdir(output_dir, ['sub-' subject_label], {'ses-eeg'}, {'eeg'});
+  spm_mkdir(output_dir, ['sub-' subject_label], {'ses-meg'}, {'meg'});
 
-    convert_anat(input_dir, output_dir, opt, subject_label, anat);
-    convert_func(input_dir, output_dir, opt, subject_label, task_name, func);
-    convert_eeg(input_dir, output_dir, opt, subject_label, task_name);
-    convert_meg(input_dir, output_dir, opt, subject_label, task_name);
+  convert_anat(input_dir, output_dir, opt, subject_label, anat);
+  convert_func(input_dir, output_dir, opt, subject_label, task_name, func);
+  convert_eeg(input_dir, output_dir, opt, subject_label, task_name);
+  convert_meg(input_dir, output_dir, opt, subject_label, task_name);
 
-    %% And everything else
-    create_readme(output_dir);
-    create_changelog(output_dir);
-    create_datasetdescription(output_dir, opt);
+  %% And everything else
+  create_readme(output_dir);
+  create_changelog(output_dir);
+  create_datasetdescription(output_dir, opt);
 
 end
 
 function downwload_data(input_dir, working_directory, download)
-    if download
-        try
-            rmdir(input_dir, 's');
-        catch
-        end
-
-        spm_mkdir(fullfile(working_directory, 'inputs'));
-
-        %% Get data
-        fprintf('%-10s:', 'Downloading dataset...');
-        urlwrite(URL, 'face_rep.zip');
-        fprintf(1, ' Done\n\n');
-
-        fprintf('%-10s:', 'Unzipping dataset...');
-        unzip('face_rep.zip');
-        movefile('face_rep', fullfile(working_directory, 'inputs', 'source'));
-        fprintf(1, ' Done\n\n');
+  if download
+    try
+      rmdir(input_dir, 's');
+    catch
     end
+
+    spm_mkdir(fullfile(working_directory, 'inputs'));
+
+    %% Get data
+    fprintf('%-10s:', 'Downloading dataset...');
+    urlwrite(URL, 'face_rep.zip');
+    fprintf(1, ' Done\n\n');
+
+    fprintf('%-10s:', 'Unzipping dataset...');
+    unzip('face_rep.zip');
+    movefile('face_rep', fullfile(working_directory, 'inputs', 'source'));
+    fprintf(1, ' Done\n\n');
+  end
 end
 
 function convert_anat(input_dir, output_dir, opt, subject_label, anat)
 
-    file = struct('suffix', 'T1w', ...
-                  'ext', '.nii', ...
-                  'entities', struct('sub', subject_label, ...
-                                     'ses', 'mri'));
-    filename = bids.create_filename(file);
-    pth = bids.create_path(filename);
+  file = struct('suffix', 'T1w', ...
+                'ext', '.nii', ...
+                'entities', struct('sub', subject_label, ...
+                                   'ses', 'mri'));
+  filename = bids.create_filename(file);
+  pth = bids.create_path(filename);
 
-    anat_input_dir = fullfile(input_dir, 'multimodal_smri', 'sMRI');
-    anat_ouput_dir = fullfile(output_dir, pth);
+  anat_input_dir = fullfile(input_dir, 'multimodal_smri', 'sMRI');
+  anat_ouput_dir = fullfile(output_dir, pth);
 
-    % change from nifti (.hdr + .img) to nifti (.nii)
-    anat_hdr = spm_vol(fullfile(anat_input_dir, 'smri.img'));
-    anat_data = spm_read_vols(anat_hdr);
-    anat_hdr.fname = fullfile(anat_ouput_dir, filename);
-    spm_write_vol(anat_hdr, anat_data);
+  % change from nifti (.hdr + .img) to nifti (.nii)
+  anat_hdr = spm_vol(fullfile(anat_input_dir, 'smri.img'));
+  anat_data = spm_read_vols(anat_hdr);
+  anat_hdr.fname = fullfile(anat_ouput_dir, filename);
+  spm_write_vol(anat_hdr, anat_data);
 
-    json_content = struct('Manufacturer', anat.manufacturer, ...
-                          'ManufacturersModelName', anat.model, ...
-                          'MagneticFieldStrength', anat.field_strength);
-    spm_save(fullfile(output_dir, 'T1w.json'), ...
-             json_content, ...
-             opt);
+  json_content = struct('Manufacturer', anat.manufacturer, ...
+                        'ManufacturersModelName', anat.model, ...
+                        'MagneticFieldStrength', anat.field_strength);
+  spm_save(fullfile(output_dir, 'T1w.json'), ...
+           json_content, ...
+           opt);
 end
 
 function convert_func(input_dir, output_dir, opt, subject_label, task_name, mri, func)
 
-    func_input_dir = fullfile(input_dir, 'multimodal_fmri', 'fMRI');
+  func_input_dir = fullfile(input_dir, 'multimodal_fmri', 'fMRI');
 
-    for iRun = 1:2
-        func_files = spm_select('FPList', ...
-                                fullfile(func_input_dir, ['Session' num2str(iRun)]), ...
-                                '^fMETHODS.*\.img$');
+  for iRun = 1:2
+    func_files = spm_select('FPList', ...
+                            fullfile(func_input_dir, ['Session' num2str(iRun)]), ...
+                            '^fMETHODS.*\.img$');
 
-        file = struct('suffix', 'bold', ...
-                      'ext', '.nii', ...
-                      'entities', struct('sub', subject_label, ...
-                                         'ses', 'mri', ...
-                                         'task', task_name, ...
-                                         'run', num2str(iRun)));
-        filename = bids.create_filename(file);
-        pth = bids.create_path(filename);
+    file = struct('suffix', 'bold', ...
+                  'ext', '.nii', ...
+                  'entities', struct('sub', subject_label, ...
+                                     'ses', 'mri', ...
+                                     'task', task_name, ...
+                                     'run', num2str(iRun)));
+    filename = bids.create_filename(file);
+    pth = bids.create_path(filename);
 
-        % convert 3D to 4D and change from nifti (.hdr + .img) to nifti (.nii)
-        spm_file_merge( ...
-                       func_files, ...
-                       fullfile(output_dir, pth, filename), ...
-                       0, ...
-                       func.repetition_time);
+    % convert 3D to 4D and change from nifti (.hdr + .img) to nifti (.nii)
+    spm_file_merge( ...
+                   func_files, ...
+                   fullfile(output_dir, pth, filename), ...
+                   0, ...
+                   func.repetition_time);
 
-        delete(fullfile(output_dir, pth, strrep(filename, '.nii', '.mat')));
-    end
+    delete(fullfile(output_dir, pth, strrep(filename, '.nii', '.mat')));
+  end
 
-    create_bold_json(output_dir, task_name, opt, func, mri);
-    create_events_tsv_file(func_input_dir, ...
-                           fullfile(output_dir, pth), ...
-                           subject_label, ....
-                           task_name, ...
-                           func);
+  create_bold_json(output_dir, task_name, opt, func, mri);
+  create_events_tsv_file(func_input_dir, ...
+                         fullfile(output_dir, pth), ...
+                         subject_label, ....
+                         task_name, ...
+                         func);
 end
 
 function convert_eeg(input_dir, output_dir, opt, subject_label, task_name)
 
-    eeg_input_dir = fullfile(input_dir, 'multimodal_eeg', 'EEG');
+  eeg_input_dir = fullfile(input_dir, 'multimodal_eeg', 'EEG');
 
-    eeg_files = spm_select('FPList', eeg_input_dir, '^.*.bdf$');
-    for iRun = 1:size(eeg_files, 1)
+  eeg_files = spm_select('FPList', eeg_input_dir, '^.*.bdf$');
+  for iRun = 1:size(eeg_files, 1)
 
-        file = struct('suffix', 'eeg', ...
-                      'ext', '.bdf', ...
-                      'entities', struct('sub', subject_label, ...
-                                         'ses', 'eeg', ...
-                                         'task', task_name, ...
-                                         'run', num2str(iRun)));
-        filename = bids.create_filename(file);
-        pth = bids.create_path(filename);
+    file = struct('suffix', 'eeg', ...
+                  'ext', '.bdf', ...
+                  'entities', struct('sub', subject_label, ...
+                                     'ses', 'eeg', ...
+                                     'task', task_name, ...
+                                     'run', num2str(iRun)));
+    filename = bids.create_filename(file);
+    pth = bids.create_path(filename);
 
-        copyfile(eeg_files(iRun, :), fullfile(output_dir, pth, filename));
+    copyfile(eeg_files(iRun, :), fullfile(output_dir, pth, filename));
 
-    end
+  end
 
 end
 
 function convert_meg(input_dir, output_dir, opt, subject_label, task_name)
 
-    % TODO 
-    % change this because .ds folders has files that should be renamed too 
-    
-    
-    meg_input_dir = fullfile(input_dir, 'multimodal_meg', 'MEG');
+  % TODO
+  % change this because .ds folders has files that should be renamed too
 
-    [~, meg_dirs] = spm_select('FPList', meg_input_dir, '^.*.ds$');
-    for iRun = 1:size(meg_dirs, 1)
+  meg_input_dir = fullfile(input_dir, 'multimodal_meg', 'MEG');
 
-        file = struct('suffix', 'meg', ...
-                      'ext', '.ds', ...
-                      'entities', struct('sub', subject_label, ...
-                                         'ses', 'meg', ...
-                                         'task', task_name, ...
-                                         'run', num2str(iRun)));
-        filename = bids.create_filename(file);
-        pth = bids.create_path(filename);
+  [~, meg_dirs] = spm_select('FPList', meg_input_dir, '^.*.ds$');
+  for iRun = 1:size(meg_dirs, 1)
 
-        copyfile(meg_dirs(iRun, :), fullfile(output_dir, pth, filename));
+    file = struct('suffix', 'meg', ...
+                  'ext', '.ds', ...
+                  'entities', struct('sub', subject_label, ...
+                                     'ses', 'meg', ...
+                                     'task', task_name, ...
+                                     'run', num2str(iRun)));
+    filename = bids.create_filename(file);
+    pth = bids.create_path(filename);
 
-    end
+    copyfile(meg_dirs(iRun, :), fullfile(output_dir, pth, filename));
+
+  end
 
 end
 
 function create_events_tsv_file(input_dir, output_dir, subject_label, task_name, func)
 
-    for iRun = 1:2
-        load(fullfile(input_dir, ['trials_ses' num2str(iRun) '.mat']), ...
-             'names', 'onsets', 'durations');
+  for iRun = 1:2
+    load(fullfile(input_dir, ['trials_ses' num2str(iRun) '.mat']), ...
+         'names', 'onsets', 'durations');
 
-        onset_column = [];
-        duration_column = [];
-        trial_type_column = [];
+    onset_column = [];
+    duration_column = [];
+    trial_type_column = [];
 
-        for iCondition = 1:numel(names)
-            onset_column = [onset_column; onsets{iCondition}']; %#ok<*USENS>
-            duration_column = [duration_column; durations{iCondition}']; %#ok<*AGROW>
-            trial_type_column = [trial_type_column; repmat( ...
-                                                           names(iCondition), ...
-                                                           size(onsets{iCondition}', 1), 1)];
-        end
-
-        % sort trials by their presentation time
-        [onset_column, idx] = sort(onset_column);
-        duration_column = duration_column(idx);
-        trial_type_column = trial_type_column(idx, :);
-
-        onset_column = func.repetition_time * onset_column;
-
-        tsv_content = struct('onset', onset_column, ...
-                             'duration', duration_column, ...
-                             'trial_type', {cellstr(trial_type_column)});
-
-        file = struct('suffix', 'events', ...
-                      'modality', 'func', ...
-                      'ext', '.tsv', ...
-                      'entities', struct('sub', subject_label, ...
-                                         'ses', 'mri', ...
-                                         'task', task_name, ...
-                                         'run', num2str(iRun)));
-        filename = bids.create_filename(file);
-
-        bids.util.tsvwrite(fullfile(output_dir, filename), ...
-                           tsv_content);
-
+    for iCondition = 1:numel(names)
+      onset_column = [onset_column; onsets{iCondition}']; %#ok<*USENS>
+      duration_column = [duration_column; durations{iCondition}']; %#ok<*AGROW>
+      trial_type_column = [trial_type_column; repmat( ...
+                                                     names(iCondition), ...
+                                                     size(onsets{iCondition}', 1), 1)];
     end
+
+    % sort trials by their presentation time
+    [onset_column, idx] = sort(onset_column);
+    duration_column = duration_column(idx);
+    trial_type_column = trial_type_column(idx, :);
+
+    onset_column = func.repetition_time * onset_column;
+
+    tsv_content = struct('onset', onset_column, ...
+                         'duration', duration_column, ...
+                         'trial_type', {cellstr(trial_type_column)});
+
+    file = struct('suffix', 'events', ...
+                  'modality', 'func', ...
+                  'ext', '.tsv', ...
+                  'entities', struct('sub', subject_label, ...
+                                     'ses', 'mri', ...
+                                     'task', task_name, ...
+                                     'run', num2str(iRun)));
+    filename = bids.create_filename(file);
+
+    bids.util.tsvwrite(fullfile(output_dir, filename), ...
+                       tsv_content);
+
+  end
 
 end
 
 function create_readme(output_dir)
 
-    rdm = {
-           ' ___ ____ __ __'
-           '/ __)( _ \( \/ ) Statistical Parametric Mapping'
-           '\__ \ )___/ ) ( Wellcome Centre for Human Neuroimaging'
-           '(___/(__) (_/\/\_) https://www.fil.ion.ucl.ac.uk/spm/'
+  rdm = {
+         ' ___ ____ __ __'
+         '/ __)( _ \( \/ ) Statistical Parametric Mapping'
+         '\__ \ )___/ ) ( Wellcome Centre for Human Neuroimaging'
+         '(___/(__) (_/\/\_) https://www.fil.ion.ucl.ac.uk/spm/'
 
-           ''
-           ' Face repetition example event-related fMRI dataset'
-           '________________________________________________________________________'
-           ''
-           'Summary'
-           ''
-           ' 7 Files, 215.74MB'
-           ' 1 - Subject'
-           ' 1 - Session'
-           ''
-           'Available Tasks'
-           ''
-           'FaceSymmetry'
-           ''
-           'Available Modalities'
-           ''
-           ' bold'
-           ' T1w'
-           ' events'
-           ''
-           ''
-           ''
-           'Experimental design:'};
+         ''
+         ' Face repetition example event-related fMRI dataset'
+         '________________________________________________________________________'
+         ''
+         'Summary'
+         ''
+         ' 7 Files, 215.74MB'
+         ' 1 - Subject'
+         ' 1 - Session'
+         ''
+         'Available Tasks'
+         ''
+         'FaceSymmetry'
+         ''
+         'Available Modalities'
+         ''
+         ' bold'
+         ' T1w'
+         ' events'
+         ''
+         ''
+         ''
+         'Experimental design:'};
 
-    % TODO
-    % use spm_save to actually write this file?
-    fid = fopen(fullfile(output_dir, 'README'), 'wt');
-    for i = 1:numel(rdm)
-        fprintf(fid, '%s\n', rdm{i});
-    end
-    fclose(fid);
+  % TODO
+  % use spm_save to actually write this file?
+  fid = fopen(fullfile(output_dir, 'README'), 'wt');
+  for i = 1:numel(rdm)
+    fprintf(fid, '%s\n', rdm{i});
+  end
+  fclose(fid);
 
-    % The basic paradigm involves randomised presentation of at least 86 faces and 86 scrambled faces
-    % (Figure 37.1), based on Phase 1 of a previous study by Henson et al (2003). The scrambled faces
-    % were created by 2D Fourier transformation, random phase permutation, inverse transformation
-    % and outline-masking of each face. Thus faces and scrambled faces are closely matched for low-level
-    % visual properties such as spatial frequency content. Half the faces were famous, but this factor is
-    % collapsed in the current analyses. Each face required a four-way, left-right symmetry judgment
-    % (mean RTs over a second; judgments roughly orthogonal to conditions; reasons for this task are
-    % explained in Henson et al, 2003). The subject was instructed not to blink while the fixation cross
-    % was present on the screen.
+  % The basic paradigm involves randomised presentation of at least 86 faces and 86 scrambled faces
+  % (Figure 37.1), based on Phase 1 of a previous study by Henson et al (2003). The scrambled faces
+  % were created by 2D Fourier transformation, random phase permutation, inverse transformation
+  % and outline-masking of each face. Thus faces and scrambled faces are closely matched for low-level
+  % visual properties such as spatial frequency content. Half the faces were famous, but this factor is
+  % collapsed in the current analyses. Each face required a four-way, left-right symmetry judgment
+  % (mean RTs over a second; judgments roughly orthogonal to conditions; reasons for this task are
+  % explained in Henson et al, 2003). The subject was instructed not to blink while the fixation cross
+  % was present on the screen.
 
-    % The T1-weighted structural MRI of a young male was acquired on a 1.5T Siemens Sonata via an
-    % MDEFT sequence
+  % The T1-weighted structural MRI of a young male was acquired on a 1.5T Siemens Sonata via an
+  % MDEFT sequence
 
-    % The fMRI data were acquired using a gradient-echo EPI sequence on a 3T Siemens TIM Trio,
-    % with 32, 3mm slices (skip 0.75mm)
+  % The fMRI data were acquired using a gradient-echo EPI sequence on a 3T Siemens TIM Trio,
+  % with 32, 3mm slices (skip 0.75mm)
 
-    % The EEG data were acquired on a 128-channel ActiveTwo system, sampled at 2048 Hz, plus
-    % electrodes on left earlobe, right earlobe, and two bipolar channels to measure HEOG and VEOG.
-    % The 128 scalp channels are named: 32 A (Back), 32 B (Right), 32 C (Front) and 32 D (Left).
+  % The EEG data were acquired on a 128-channel ActiveTwo system, sampled at 2048 Hz, plus
+  % electrodes on left earlobe, right earlobe, and two bipolar channels to measure HEOG and VEOG.
+  % The 128 scalp channels are named: 32 A (Back), 32 B (Right), 32 C (Front) and 32 D (Left).
 
-    % The MEG data were acquired on a 275 channel CTF/VSM system, using second-order axial
-    % gradiometers and synthetic third gradient for denoising and sampled at 480 Hz. There are actually
-    % 274 MEG channels in this dataset since the system it was recorded on had one faulty sensor. Two
-    % runs (sessions) of the protocol have been saved in two CTF datasets (each one is a directory with
-    % multiple files)
+  % The MEG data were acquired on a 275 channel CTF/VSM system, using second-order axial
+  % gradiometers and synthetic third gradient for denoising and sampled at 480 Hz. There are actually
+  % 274 MEG channels in this dataset since the system it was recorded on had one faulty sensor. Two
+  % runs (sessions) of the protocol have been saved in two CTF datasets (each one is a directory with
+  % multiple files)
 
 end
 
 function create_changelog(output_dir)
 
-    cg = {'1.0.1 2021-??-??', ' - BIDS version.', ...
-          '1.0.0 ????-??-??', ' - Initial release.'};
-    fid = fopen(fullfile(output_dir, 'CHANGES'), 'wt');
+  cg = {'1.0.1 2021-??-??', ' - BIDS version.', ...
+        '1.0.0 ????-??-??', ' - Initial release.'};
+  fid = fopen(fullfile(output_dir, 'CHANGES'), 'wt');
 
-    for i = 1:numel(cg)
-        fprintf(fid, '%s\n', cg{i});
-    end
-    fclose(fid);
+  for i = 1:numel(cg)
+    fprintf(fid, '%s\n', cg{i});
+  end
+  fclose(fid);
 
 end
 
 function create_datasetdescription(output_dir, opt)
 
-    descr = struct( ...
-                   'BIDSVersion', '1.6.0', ...
-                   'Name', 'spm multimodal dataset', ...
-                   'Authors', {{ ...
-                                '???', ...
-                                '???'}}, ...
-                   'ReferencesAndLinks', ...
-                   {{'https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/', ...
-                     '???', ...
-                     'doi:???'}} ...
-                  );
+  descr = struct( ...
+                 'BIDSVersion', '1.6.0', ...
+                 'Name', 'spm multimodal dataset', ...
+                 'Authors', {{ ...
+                              '???', ...
+                              '???'}}, ...
+                 'ReferencesAndLinks', ...
+                 {{'https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/', ...
+                   '???', ...
+                   'doi:???'}} ...
+                );
 
-    spm_save(fullfile(output_dir, 'dataset_description.json'), ...
-             descr, ...
-             opt);
+  spm_save(fullfile(output_dir, 'dataset_description.json'), ...
+           descr, ...
+           opt);
 
 end
 
 function create_bold_json(output_dir, task_name, opt, func)
 
-    acquisition_time = func.repetition_time - func.repetition_time / func.nb_slices;
-    slice_timing = linspace(acquisition_time, 0, func.nb_slices);
+  acquisition_time = func.repetition_time - func.repetition_time / func.nb_slices;
+  slice_timing = linspace(acquisition_time, 0, func.nb_slices);
 
-    task = struct('Manufacturer', func.manufacturer, ...
-                  'ManufacturersModelName', func.model, ...
-                  'MagneticFieldStrength', func.field_strength, ...
-                  'RepetitionTime', func.repetition_time, ...
-                  'SliceTiming', slice_timing, ...
-                  'NumberOfVolumesDiscardedByUser', func.discarded_volumes, ...
-                  'TaskName', task_name, ...
-                  'TaskDescription', '???');
+  task = struct('Manufacturer', func.manufacturer, ...
+                'ManufacturersModelName', func.model, ...
+                'MagneticFieldStrength', func.field_strength, ...
+                'RepetitionTime', func.repetition_time, ...
+                'SliceTiming', slice_timing, ...
+                'NumberOfVolumesDiscardedByUser', func.discarded_volumes, ...
+                'TaskName', task_name, ...
+                'TaskDescription', '???');
 
-    spm_save(fullfile(output_dir, ...
-                      ['task-' strrep(task_name, ' ', '') '_bold.json']), ...
-             task, ...
-             opt);
+  spm_save(fullfile(output_dir, ...
+                    ['task-' strrep(task_name, ' ', '') '_bold.json']), ...
+           task, ...
+           opt);
 
 end
