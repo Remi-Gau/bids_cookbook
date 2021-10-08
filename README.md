@@ -1,4 +1,3 @@
-
 <!-- TODO
 - conversion script for MEG events
 - link to BEPs have a look and contribute
@@ -16,21 +15,19 @@ Requires SPM12 and
 Place and unzip the zip files in `source` folder and run
 `code/code/convert_spm_multimodal_ds.m` -->
 
-# How to cook a BIDS dataset by hand and from scratch
+# A BIDS cookbook
+
+How to cook a BIDS cookbook dataset by hand and from scratch
 
 <h3> 
     This a simple recipe to convert your neuroimaging data into a valid BIDS dataset.
 </h3>
-
-You 
 
 **table of content**
 
 - [Ingredients](#Ingredients)
 - Recipe
 - Useful links
-
-<br>
 
 ---
 
@@ -46,8 +43,6 @@ You
 
 </details>
 
-<br>
-
 ---
 
 ## Ingredients & tools
@@ -58,8 +53,6 @@ Get them fresh from your local ~~market~~:
 - EEG amp 🌩
 - MEG [:octopus:](https://theupturnedmicroscope.com/comic/squid/)
 - ...
-
-<br>
 
 <details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </font> </summary><br>
     <p> 
@@ -75,8 +68,6 @@ Get them fresh from your local ~~market~~:
     </p>
 </details>
 
-<br>
-
 <details><summary> <b> 🖋 a text editor </b> </font> </summary><br>
     Several common options top choose from:
     <ul>
@@ -87,13 +78,9 @@ Get them fresh from your local ~~market~~:
     </ul>
 </details>
 
-<br>
-
 <details><summary> <b> ♻ some format conversion tools </b> </font> </summary><br>
     For the MRI data we will be using some of the SPM built in functions.
 </details>
-
-<br>
 
 ---
 
@@ -132,18 +119,18 @@ SPM fmri
 ```
 
 - In SPM
-    - `Batch --> SPM --> Utils --> 3D to 4D File conversion`
-    - select the `*.img` file to convert
-    - keep track of what you did by saving the batch in `code/conversion`
-    - run the batch
+  - `Batch --> SPM --> Utils --> 3D to 4D File conversion`
+  - select the `*.img` file to convert
+  - keep track of what you did by saving the batch in `code/conversion`
+  - run the batch
 
 #### 2.a Cooking is not just about the taste, it is also about how things look: naming files
 
-- extension 
-- suffix 
+- extension
+- suffix
 - entity-label pairs
 
-- filename template 
+- filename template
 
 - entity table
 
@@ -181,13 +168,11 @@ events.tsv --> script
 
 inheritance principle --> single json
 
-<!-- 
+<!--
 - Defacing
 - MRIQC
-- Things to improve 
+- Things to improve
 -->
-
-<br>
 
 ---
 
@@ -207,7 +192,5 @@ inheritance principle --> single json
 - [Conversion tools](https://bids.neuroimaging.io/benefits.html#converters)
 - [Datalad handbook](http://handbook.datalad.org/en/latest/index.html)
 - [GIN](https://gin.g-node.org/)
-
-<br>
 
 ---
