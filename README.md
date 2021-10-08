@@ -19,7 +19,7 @@ Place and unzip the zip files in `source` folder and run
 
 How to cook a BIDS cookbook dataset by hand and from scratch
 
-<h3> 
+<h3>
     This a simple recipe to convert your neuroimaging data into a valid BIDS dataset.
 </h3>
 
@@ -55,15 +55,15 @@ Get them fresh from your local ~~market~~:
 - ...
 
 <details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </summary><br>
-    <p> 
-        We will work with the <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">multi-modal face dataset from SPM</a>. 
+    <p>
+        We will work with the <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">multi-modal face dataset from SPM</a>.
     </p>
-    <p> 
+    <p>
         This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
     </p>
     <p>
         Very often MRI source ata will be in a DICOM format and will required to be converted.
-        Here the MRI data is in 3D Nifti Nifti  format <code>.hdr/.img</code> and 
+        Here the MRI data is in 3D Nifti Nifti  format <code>.hdr/.img</code> and
         we will need to change that to a 4D Nifti <code>.nii</code> format.
     </p>
 </details>
@@ -147,7 +147,7 @@ https://bids-standard.github.io/bids-validator/
 
 #### 2.d Icing on the cake: adding extra information
 
-- `partipants.tsv` --> 
+- `partipants.tsv` -->
 - can use excel to create
 
 #### 2.e BIDS is data jam: let's preserve some
