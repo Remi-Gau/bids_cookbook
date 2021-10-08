@@ -31,7 +31,7 @@ How to cook a BIDS cookbook dataset by hand and from scratch
 
 ---
 
-<details><summary> <b>Click me...</b> </font> </summary><br>
+<details><summary> <b>Click me...</b> </summary><br>
 
 ... to see what I hide !!!
 
@@ -54,7 +54,7 @@ Get them fresh from your local ~~market~~:
 - MEG [:octopus:](https://theupturnedmicroscope.com/comic/squid/)
 - ...
 
-<details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </font> </summary><br>
+<details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </summary><br>
     <p> 
         We will work with the <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">multi-modal face dataset from SPM</a>. 
     </p>
@@ -68,7 +68,7 @@ Get them fresh from your local ~~market~~:
     </p>
 </details>
 
-<details><summary> <b> 🖋 a text editor </b> </font> </summary><br>
+<details><summary> <b> 🖋 a text editor </b> </summary><br>
     Several common options top choose from:
     <ul>
         <li><a href="https://code.visualstudio.com" target="_blank">Visual Studio code</a></li>
@@ -78,7 +78,7 @@ Get them fresh from your local ~~market~~:
     </ul>
 </details>
 
-<details><summary> <b> ♻ some format conversion tools </b> </font> </summary><br>
+<details><summary> <b> ♻ some format conversion tools </b> </summary><br>
     For the MRI data we will be using some of the SPM built in functions.
 </details>
 
@@ -141,11 +141,14 @@ https://bids-standard.github.io/bids-validator/
 #### 2.c Season to taste: adding missing files
 
 - `dataset_description.json`
+    - from the specification
 - `README`
+    - template
 
 #### 2.d Icing on the cake: adding extra information
 
-- `partipants.tsv` --> use excel to create
+- `partipants.tsv` --> 
+- can use excel to create
 
 #### 2.e BIDS is data jam: let's preserve some
 
