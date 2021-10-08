@@ -137,7 +137,7 @@ SPM fmri
     - keep track of what you did by saving the batch in `code/conversion`
     - run the batch
 
-### 3. Cooking is not just about the taste, it is also about how things look: naming files
+#### 2.a Cooking is not just about the taste, it is also about how things look: naming files
 
 - extension 
 - suffix 
@@ -147,24 +147,27 @@ SPM fmri
 
 - entity table
 
-### 4. Taste your dish while you prepare it: using the BIDS validator
+#### 2.b Taste your dish while you prepare it: using the BIDS validator
 
 https://bids-standard.github.io/bids-validator/
 
-### 5. Season to taste: adding missing files
+#### 2.c Season to taste: adding missing files
 
 - `dataset_description.json`
 - `README`
 
-### Icing on the cake: adding extra information
+#### 2.d Icing on the cake: adding extra information
 
 - `partipants.tsv` --> use excel to create
 
-### BIDS is data jam: let's preserve some
+#### 2.e BIDS is data jam: let's preserve some
 
-datalad create 
+```bash
+datalad create --force -c text2git .
+datalad save -m 'initial commit'
+```
 
-### functional
+### 3 functional
 
 2 runs
 
