@@ -15,9 +15,7 @@ Requires SPM12 and
 Place and unzip the zip files in `source` folder and run
 `code/code/convert_spm_multimodal_ds.m` -->
 
-# A BIDS cookbook
-
-How to cook a BIDS cookbook dataset by hand and from scratch
+# How to cook a BIDS cookbook dataset by hand and from scratch
 
 <h3>
     This a simple recipe to convert your neuroimaging data into a valid BIDS dataset.
@@ -25,9 +23,9 @@ How to cook a BIDS cookbook dataset by hand and from scratch
 
 **table of content**
 
-- [Ingredients](#Ingredients)
-- Recipe
-- Useful links
+- [Ingredients](#Ingredients-&-tools)
+- [Recipe](#Recipe)
+- [Useful links](#Useful-links)
 
 ---
 
@@ -43,7 +41,7 @@ How to cook a BIDS cookbook dataset by hand and from scratch
 
 </details>
 
----
+<br>
 
 ## Ingredients & tools
 
@@ -84,6 +82,8 @@ Get them fresh from your local ~~market~~:
 
 ---
 
+<br>
+
 ## Recipe
 
 ### 1. Preheat the oven: creating folders
@@ -110,7 +110,9 @@ By now you should have this.
             └── func
 ```
 
-### 2. Starters: converting the MRI anatomical file
+<br>
+
+### 2. Starters: converting the anatomical MRI file
 
 - In Matlab launch SPM
 
@@ -141,9 +143,9 @@ https://bids-standard.github.io/bids-validator/
 #### 2.c Season to taste: adding missing files
 
 - `dataset_description.json`
-    - from the specification
+  - from the specification
 - `README`
-    - template
+  - template
 
 #### 2.d Icing on the cake: adding extra information
 
@@ -157,7 +159,9 @@ datalad create --force -c text2git .
 datalad save -m 'initial commit'
 ```
 
-### 3 functional
+<br>
+
+### 3 Main course: converting the functional MRI files
 
 2 runs
 
