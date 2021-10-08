@@ -1,7 +1,3 @@
----
-tags: BIDS
----
-
 # Info concerning the SPM multimodal dataset
 
 Extracted from the SPM8 manual:

@@ -174,6 +174,10 @@ end
 
 function convert_meg(input_dir, output_dir, opt, subject_label, task_name)
 
+    % TODO 
+    % change this because .ds folders has files that should be renamed too 
+    
+    
     meg_input_dir = fullfile(input_dir, 'multimodal_meg', 'MEG');
 
     [~, meg_dirs] = spm_select('FPList', meg_input_dir, '^.*.ds$');
