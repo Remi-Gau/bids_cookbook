@@ -34,7 +34,6 @@ function convert_spm_multimodal_ds()
   opt.indent = ' ';
 
   % URL of the data set to download
-  URL = 'http://www.fil.ion.ucl.ac.uk/spm/download/data/face_rep/face_rep.zip';
 
   working_directory = fileparts(mfilename('fullpath'));
   input_dir = fullfile(working_directory, '..', 'source');
@@ -63,7 +62,9 @@ function convert_spm_multimodal_ds()
   %% And everything else
   create_readme(output_dir);
   create_changelog(output_dir);
-  create_datasetdescription(output_dir, opt);
+  create_datasetdescription(output_dir);
+
+  fprintf(1, '\n');
 
 end
 
@@ -90,31 +91,34 @@ end
 
 function convert_anat(input_dir, output_dir, opt, subject_label, anat)
 
+  fprintf(1, '\nconverting anat');
+
   file = struct('suffix', 'T1w', ...
                 'ext', '.nii', ...
+                'modality', 'anat', ...
+                'use_schema', true, ...
                 'entities', struct('sub', subject_label, ...
                                    'ses', 'mri'));
-  filename = bids.create_filename(file);
-  pth = bids.create_path(filename);
+  bidsFile = bids.File(file);
 
   anat_input_dir = fullfile(input_dir, 'multimodal_smri', 'sMRI');
-  anat_ouput_dir = fullfile(output_dir, pth);
 
   % change from nifti (.hdr + .img) to nifti (.nii)
   anat_hdr = spm_vol(fullfile(anat_input_dir, 'smri.img'));
   anat_data = spm_read_vols(anat_hdr);
-  anat_hdr.fname = fullfile(anat_ouput_dir, filename);
+  anat_hdr.fname = fullfile(output_dir, bidsFile.relative_pth, bidsFile.filename);
   spm_write_vol(anat_hdr, anat_data);
 
   json_content = struct('Manufacturer', anat.manufacturer, ...
                         'ManufacturersModelName', anat.model, ...
                         'MagneticFieldStrength', anat.field_strength);
-  spm_save(fullfile(output_dir, 'T1w.json'), ...
-           json_content, ...
-           opt);
+  bids.util.jsonencode(fullfile(output_dir, 'T1w.json'), ...
+                       json_content);
 end
 
-function convert_func(input_dir, output_dir, opt, subject_label, task_name, mri, func)
+function convert_func(input_dir, output_dir, opt, subject_label, task_name, func)
+
+  fprintf(1, '\nconverting func');
 
   func_input_dir = fullfile(input_dir, 'multimodal_fmri', 'fMRI');
 
@@ -125,32 +129,37 @@ function convert_func(input_dir, output_dir, opt, subject_label, task_name, mri,
 
     file = struct('suffix', 'bold', ...
                   'ext', '.nii', ...
+                  'modality', 'func', ...
+                  'use_schema', true, ...
                   'entities', struct('sub', subject_label, ...
                                      'ses', 'mri', ...
                                      'task', task_name, ...
                                      'run', num2str(iRun)));
-    filename = bids.create_filename(file);
-    pth = bids.create_path(filename);
+    bidsFile = bids.File(file);
 
     % convert 3D to 4D and change from nifti (.hdr + .img) to nifti (.nii)
     spm_file_merge( ...
                    func_files, ...
-                   fullfile(output_dir, pth, filename), ...
+                   fullfile(output_dir, bidsFile.relative_pth, bidsFile.filename), ...
                    0, ...
                    func.repetition_time);
 
-    delete(fullfile(output_dir, pth, strrep(filename, '.nii', '.mat')));
+    delete(fullfile(output_dir, ...
+                    bidsFile.relative_pth, ...
+                    strrep(bidsFile.filename, '.nii', '.mat')));
   end
 
-  create_bold_json(output_dir, task_name, opt, func, mri);
+  create_bold_json(output_dir, task_name, opt, func);
   create_events_tsv_file(func_input_dir, ...
-                         fullfile(output_dir, pth), ...
+                         fullfile(output_dir, bidsFile.relative_pth), ...
                          subject_label, ....
                          task_name, ...
                          func);
 end
 
 function convert_eeg(input_dir, output_dir, opt, subject_label, task_name)
+
+  fprintf(1, '\nconverting eeg');
 
   eeg_input_dir = fullfile(input_dir, 'multimodal_eeg', 'EEG');
 
@@ -159,20 +168,23 @@ function convert_eeg(input_dir, output_dir, opt, subject_label, task_name)
 
     file = struct('suffix', 'eeg', ...
                   'ext', '.bdf', ...
+                  'modality', 'eeg', ...
+                  'use_schema', true, ...
                   'entities', struct('sub', subject_label, ...
                                      'ses', 'eeg', ...
                                      'task', task_name, ...
                                      'run', num2str(iRun)));
-    filename = bids.create_filename(file);
-    pth = bids.create_path(filename);
+    bidsFile = bids.File(file);
 
-    copyfile(eeg_files(iRun, :), fullfile(output_dir, pth, filename));
+    copyfile(eeg_files(iRun, :), fullfile(output_dir, bidsFile.relative_pth, bidsFile.filename));
 
   end
 
 end
 
 function convert_meg(input_dir, output_dir, opt, subject_label, task_name)
+
+  fprintf(1, '\nconverting meg');
 
   % TODO
   % change this because .ds folders has files that should be renamed too
@@ -184,20 +196,23 @@ function convert_meg(input_dir, output_dir, opt, subject_label, task_name)
 
     file = struct('suffix', 'meg', ...
                   'ext', '.ds', ...
+                  'modality', 'meg', ...
+                  'use_schema', true, ...
                   'entities', struct('sub', subject_label, ...
                                      'ses', 'meg', ...
                                      'task', task_name, ...
                                      'run', num2str(iRun)));
-    filename = bids.create_filename(file);
-    pth = bids.create_path(filename);
+    bidsFile = bids.File(file);
 
-    copyfile(meg_dirs(iRun, :), fullfile(output_dir, pth, filename));
+    copyfile(meg_dirs(iRun, :), fullfile(output_dir, bidsFile.relative_pth, bidsFile.filename));
 
   end
 
 end
 
 function create_events_tsv_file(input_dir, output_dir, subject_label, task_name, func)
+
+  fprintf(1, '\ncreating func events');
 
   for iRun = 1:2
     load(fullfile(input_dir, ['trials_ses' num2str(iRun) '.mat']), ...
@@ -228,14 +243,15 @@ function create_events_tsv_file(input_dir, output_dir, subject_label, task_name,
 
     file = struct('suffix', 'events', ...
                   'modality', 'func', ...
+                  'use_schema', true, ...
                   'ext', '.tsv', ...
                   'entities', struct('sub', subject_label, ...
                                      'ses', 'mri', ...
                                      'task', task_name, ...
                                      'run', num2str(iRun)));
-    filename = bids.create_filename(file);
+    bidsFile = bids.File(file);
 
-    bids.util.tsvwrite(fullfile(output_dir, filename), ...
+    bids.util.tsvwrite(fullfile(output_dir, bidsFile.filename), ...
                        tsv_content);
 
   end
@@ -243,6 +259,8 @@ function create_events_tsv_file(input_dir, output_dir, subject_label, task_name,
 end
 
 function create_readme(output_dir)
+
+  fprintf(1, '\ncreating README');
 
   rdm = {
          ' ___ ____ __ __'
@@ -286,6 +304,8 @@ end
 
 function create_changelog(output_dir)
 
+  fprintf(1, '\ncreating CHANGES');
+
   cg = {'1.0.1 2021-??-??', ' - BIDS version.', ...
         '1.0.0 ????-??-??', ' - Initial release.'};
   fid = fopen(fullfile(output_dir, 'CHANGES'), 'wt');
@@ -297,7 +317,9 @@ function create_changelog(output_dir)
 
 end
 
-function create_datasetdescription(output_dir, opt)
+function create_datasetdescription(output_dir)
+
+  fprintf(1, '\ncreating dataset_decription');
 
   descr = struct( ...
                  'BIDSVersion', '1.6.0', ...
@@ -311,9 +333,8 @@ function create_datasetdescription(output_dir, opt)
                    'doi:???'}} ...
                 );
 
-  spm_save(fullfile(output_dir, 'dataset_description.json'), ...
-           descr, ...
-           opt);
+  bids.util.jsonencode(fullfile(output_dir, 'dataset_description.json'), ...
+                       descr);
 
 end
 
@@ -327,9 +348,8 @@ function create_bold_json(output_dir, task_name, opt, func)
                 'TaskName', task_name, ...
                 'TaskDescription', '???');
 
-  spm_save(fullfile(output_dir, ...
-                    ['task-' strrep(task_name, ' ', '') '_bold.json']), ...
-           task, ...
-           opt);
+  bids.util.jsonencode(fullfile(output_dir, ...
+                                ['task-' strrep(task_name, ' ', '') '_bold.json']), ...
+                       task);
 
 end
