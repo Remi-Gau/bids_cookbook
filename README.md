@@ -28,6 +28,7 @@ dataset.
 
 <br>
 
+[**^**](#table-of-content)
 ## Ingredients and tools
 
 Get them fresh from your local ~~market~~:
@@ -93,7 +94,7 @@ Get them fresh from your local ~~market~~:
   </p>
 </details>
 
-<details><summary> <b> 📥 [OPTIONAL] BIDS validator <b> </summary><br>
+<details><summary> <b> 📥 [OPTIONAL] BIDS validator </b> </summary><br>
   <ul>
       <li>Install <a href="https://nodejs.org" target="_blank">Node.js</a> (at least version 12.12.0).</li>
       <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
@@ -105,6 +106,7 @@ Get them fresh from your local ~~market~~:
 
 <br>
 
+[**^**](#table-of-content)
 ## Recipe
 
 ### 1. Preheat the oven: creating folders
@@ -135,6 +137,7 @@ Get them fresh from your local ~~market~~:
 
 <br>
 
+[**^**](#table-of-content)
 ### 2. Starters: converting the anatomical MRI file
 
 - In Matlab launch SPM: `spm fmri`.
@@ -275,6 +278,7 @@ datalad save -m 'initial commit'
 
 <br>
 
+[**^**](#table-of-content)
 ### 3. Main course: converting the functional MRI files
 
 - Convert the 2 runs of made of 3D series of `*.img` into 2 single 4D `*.nii`
@@ -300,6 +304,7 @@ datalad save -m 'initial commit'
 
 <br>
 
+[**^**](#table-of-content)
 ## Useful links
 
 - [BIDS specification](https://bids-specification.readthedocs.io)
