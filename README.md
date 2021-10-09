@@ -87,7 +87,6 @@ Get them fresh from your local ~~market~~:
           style="padding: 0; margin: 0"/>
     [OPTIONAL] Datalad to version control your data
   </b> </summary> <br>
-
   <p>
     You can follow the installation instruction in the
     <a href="http://handbook.datalad.org/en/latest/intro/installation.html" target="_blank">
@@ -157,7 +156,6 @@ Get them fresh from your local ~~market~~:
 - Give this file a valid BIDS filename.
 
 <details><summary> ✅ Valid BIDS filenames </summary><br>
-
   <ul>
     <li>
       BIDS filenames are composed of:
@@ -180,7 +178,6 @@ Get them fresh from your local ~~market~~:
       <code>entity-label</code> pairs pairs have a specific order in which they must appear in filename.
     </li>
   </ul>
-
 </details>
 
 In case you do not remember which suffix to use and which entities are required
@@ -215,12 +212,10 @@ You can get content for those files from:
 
 <details><summary> 🚨 About JSON files </summary><br>
   <p>JSON files are text files to store <code>key-value</code> pairs.</p>
-
   <p>
     If your editor cannot help you format them properly , you can always use the
     <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
   </p>
-
   <p>
     More information on how read and write JSON files is available on the
     <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
@@ -228,7 +223,6 @@ You can get content for those files from:
       BIDS stater kit.
     </a>
   <p>
-
   <pre>
     JSON CONTENT EXAMPLE:
 
@@ -263,19 +257,16 @@ You can get content for those files from:
     A Tab-Separate Values (TSV) file is a text file
     where tab characters (<code>\t</code>) separate fields that are in the file.
   </p>
-
   <p>
     It is structured as a table, with each column representing a field of interest,
     and each row representing a single datapoint.
   </p>
-
   <p>
     More information on how read and write TSV files is available on the
     <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
       target="_blank"> BIDS stater kit
     </a>
   </p>
-
   <pre>
     TSV CONTENT EXAMPLE:
 
