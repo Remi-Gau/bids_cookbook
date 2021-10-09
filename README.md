@@ -5,8 +5,11 @@
 
 <h1 style="width: 120%"> Preparing a BIDS dataset by hand and from scratch </h1>
 
-This a simple recipe to convert your neuroimaging data into a valid BIDS
-dataset.
+<center>
+<h3 style="color:red;">
+  ⚠️ Note that this is purely for learning purposes and it is NOT recommended to BIDSify real datasets by hand . ⚠️
+</h3>
+</center>
 
 <h2 id="TOC"> Table of content </h2>
 
@@ -14,7 +17,7 @@ dataset.
 - [Recipe](#recipe)
 - [Useful links](#useful-links)
 
-<details><summary> <b>Click me...</b> </summary><br>
+<details><summary> <b>CLICK ME</b> </summary><br>
 
 ... to see what I hide !!!
 
@@ -211,33 +214,41 @@ You can get content for those files from:
 > overview of the content of your dataset.
 
 <details><summary> 🚨 About JSON files </summary><br>
-  JSON files are text files to store <code>key-value</code> pairs.
+  <p>JSON files are text files to store <code>key-value</code> pairs.</p>
 
-If your editor cannot help you format them properly , you can always use the
-<a href="https://jsoneditoronline.org/" target="_blank"> online editor. </a>
+  <p>
+    If your editor cannot help you format them properly , you can always use the
+    <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
+  </p>
 
-More information on how read and write JSON files is available on the
-<a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
-        target="_blank"> BIDS stater kit </a>
+  <p>
+    More information on how read and write JSON files is available on the
+    <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
+        target="_blank">
+      BIDS stater kit.
+    </a>
+  <p>
 
   <pre>
-  {
-    "key": "value",
-    "key2": "value2",
-    "key3": {
-      "subkey1": "subvalue1"
-    },
-    "array": [ 1, 2, 3 ],
-    "boolean": true,
-    "color": "gold",
-    "null": null,
-    "number": 123,
-    "object": {
-      "a": "b",
-      "c": "d"
-    },
-    "string": "Hello World"
-  }
+    JSON CONTENT EXAMPLE:
+
+    {
+      "key": "value",
+      "key2": "value2",
+      "key3": {
+        "subkey1": "subvalue1"
+      },
+      "array": [ 1, 2, 3 ],
+      "boolean": true,
+      "color": "gold",
+      "null": null,
+      "number": 123,
+      "object": {
+        "a": "b",
+        "c": "d"
+      },
+      "string": "Hello World"
+    }
   </pre>
 </details>
 
@@ -248,25 +259,37 @@ More information on how read and write JSON files is available on the
   create them.
 
 <details><summary> 🚨 About TSV files </summary><br>
-  A Tab-Separate Values (TSV) file is a text file where tab characters (<code>\t</code>) separate fields that are in the file.
+  <p>
+    A Tab-Separate Values (TSV) file is a text file
+    where tab characters (<code>\t</code>) separate fields that are in the file.
+  </p>
 
-It is structured as a table, with each column representing a field of interest,
-and each row representing a single datapoint.
+  <p>
+    It is structured as a table, with each column representing a field of interest,
+    and each row representing a single datapoint.
+  </p>
 
-More information on how read and write TSV files is available on the
-<a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
-        target="_blank"> BIDS stater kit </a>
+  <p>
+    More information on how read and write TSV files is available on the
+    <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
+      target="_blank"> BIDS stater kit
+    </a>
+  </p>
 
   <pre>
-  participant_id\tage\tgender
-  sub-01\t34\tM
+    TSV CONTENT EXAMPLE:
+
+    participant_id\tage\tgender
+    sub-01\t34\tM
   </pre>
 </details>
 
 #### e. BIDS is data jam: let's preserve some
 
-**[OPTIONAL]** Create a Datalad dataset and make a commit when you have a valid
-dataset to use as a checkpoint.
+**[OPTIONAL]**
+
+- Create a Datalad dataset
+- make a commit when you have a valid dataset to use as a checkpoint.
 
 ```bash
 datalad create --force -c text2git .
@@ -290,7 +313,7 @@ datalad save -m 'initial commit'
 - Create `events.tsv` --> function
 - Remove duplicate `json` files ("inheritance principle")
 
-### 4. Dessert: defacing, quality control
+### 4. Dessert: defacing, quality control, upload your data to GIN
 
 <!--
 - Defacing
@@ -319,4 +342,4 @@ datalad save -m 'initial commit'
 
 ---
 
-<button><a href="#TOC">back to the top</a><button>
+<button><a href="#TOC">back to the top</a></button>
