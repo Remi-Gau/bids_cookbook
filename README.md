@@ -211,18 +211,17 @@ You can get content for those files from:
 > overview of the content of your dataset.
 
 <details><summary> 🚨 About JSON files </summary><br>
-  JSON files are text files to store <code>key-value</code> pairs.
-  <p>
-    If your editor cannot help you format them properly , you can always use the
-    <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
-  </p>
-  <p>
-    More information on how read and write JSON files is available on the
-    <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
-        target="_blank">
-      BIDS stater kit.
-    </a>
-  <p>
+JSON files are text files to store <code>key-value</code> pairs.
+
+If your editor cannot help you format them properly , you can always use the
+<a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
+
+More information on how read and write JSON files is available on the
+<a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
+    target="_blank">
+  BIDS stater kit.
+</a>
+
 <pre>JSON CONTENT EXAMPLE:
 
 {
