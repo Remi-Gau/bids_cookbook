@@ -51,8 +51,10 @@ Get them fresh from your local ~~market~~:
     </p>
     <p>
         This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
+
         We also extracted some of the information about the data from the SPM manual
         and put it into the <code>source/README.md</code>.
+
         When you have DICOM data, it is usually a good idea
         to keep the PDF of MRI acquisition parameters with your source data.
     </p>
@@ -93,7 +95,7 @@ Get them fresh from your local ~~market~~:
 
 <details><summary> <b> 📥 [OPTIONAL] BIDS validator <b> </summary><br>
   <ul>
-      <li><a href="https://nodejs.org" target="_blank">Install Node.js (at least version 12.12.0)</a></li>
+      <li>Install <a href="https://nodejs.org" target="_blank">Node.js</a> (at least version 12.12.0).</li>
       <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
       <li>From a terminal run <code>npm install -g bids-validator</code></li>
       <li>Run <code>bids-validator</code> to start validating datasets.</li>
