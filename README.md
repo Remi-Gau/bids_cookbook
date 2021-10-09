@@ -3,12 +3,12 @@
 - link to BEPs have a look and contribute
 - use BEPs to organize yet unsupported data -->
 
-<h1 style="width: 110%"> Preparing a BIDS dataset by hand and from scratch </h1>
+<h1 style="width: 120%"> Preparing a BIDS dataset by hand and from scratch </h1>
 
 This a simple recipe to convert your neuroimaging data into a valid BIDS
 dataset.
 
-## Table of content
+<h2 id="TOC"> Table of content </h2>
 
 - [Ingredients](#ingredients-and-tools)
 - [Recipe](#recipe)
@@ -28,7 +28,6 @@ dataset.
 
 <br>
 
-[**^**](#table-of-content)
 ## Ingredients and tools
 
 Get them fresh from your local ~~market~~:
@@ -106,7 +105,6 @@ Get them fresh from your local ~~market~~:
 
 <br>
 
-[**^**](#table-of-content)
 ## Recipe
 
 ### 1. Preheat the oven: creating folders
@@ -137,7 +135,6 @@ Get them fresh from your local ~~market~~:
 
 <br>
 
-[**^**](#table-of-content)
 ### 2. Starters: converting the anatomical MRI file
 
 - In Matlab launch SPM: `spm fmri`.
@@ -194,7 +191,7 @@ or optional, the BIDS specification has:
 #### b. Taste your dish while you prepare it: using the BIDS validator
 
 Try it directly in your
-[browser](https://bids-standard.github.io/bids-validator/).
+<a href="https://bids-standard.github.io/bids-validator/" target="_blank">browser.</a>
 
 #### c. Season to taste: adding missing files
 
@@ -278,7 +275,6 @@ datalad save -m 'initial commit'
 
 <br>
 
-[**^**](#table-of-content)
 ### 3. Main course: converting the functional MRI files
 
 - Convert the 2 runs of made of 3D series of `*.img` into 2 single 4D `*.nii`
@@ -294,7 +290,7 @@ datalad save -m 'initial commit'
 - Create `events.tsv` --> function
 - Remove duplicate `json` files ("inheritance principle")
 
-### 3. Dessert: converting the functional MRI files
+### 4. Dessert: defacing, quality control
 
 <!--
 - Defacing
@@ -304,7 +300,6 @@ datalad save -m 'initial commit'
 
 <br>
 
-[**^**](#table-of-content)
 ## Useful links
 
 - [BIDS specification](https://bids-specification.readthedocs.io)
@@ -324,4 +319,4 @@ datalad save -m 'initial commit'
 
 ---
 
-[**^**](#table-of-content)
+<button><a href="#TOC">back to the top</a><button>
