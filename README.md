@@ -211,7 +211,6 @@ You can get content for those files from:
 > overview of the content of your dataset.
 
 <details><summary> 🚨 About JSON files </summary><br>
-
   JSON files are text files to store <code>key-value</code> pairs.
   <p>
     If your editor cannot help you format them properly , you can always use the
@@ -224,9 +223,8 @@ You can get content for those files from:
       BIDS stater kit.
     </a>
   <p>
-
   <pre>
-  JSON CONTENT EXAMPLE:
+    JSON CONTENT EXAMPLE:
 
     {
       "key": "value",
@@ -247,7 +245,6 @@ You can get content for those files from:
     }
 
   </pre>
-
 </details>
 
 #### d. Icing on the cake: adding extra information
@@ -257,10 +254,8 @@ You can get content for those files from:
   create them.
 
 <details><summary> 🚨 About TSV files </summary><br>
-
   A Tab-Separate Values (TSV) file is a text file where tab characters
   (<code>\t</code>) separate fields that are in the file.
-
   <p>
     It is structured as a table, with each column representing a field of interest,
     and each row representing a single data point.
@@ -278,7 +273,6 @@ You can get content for those files from:
     sub-01\t34\tM
 
   </pre>
-
 </details>
 
 #### e. BIDS is data jam: let's preserve some
