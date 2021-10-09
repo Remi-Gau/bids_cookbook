@@ -85,6 +85,16 @@ Get them fresh from your local ~~market~~:
     </p>
 </details>
 
+<details><summary> <b> 📥 [OPTIONAL] BIDS validator </b> </summary><br>
+  <ul>
+      <li>Install <a href="https://nodejs.org" target="_blank">Node.js</a> (at least version 12.12.0).</li>
+      <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
+      <li>From a terminal run <code>npm install -g bids-validator</code></li>
+      <li>Run <code>bids-validator</code> to start validating datasets.</li>
+  </ul>
+  See the full instruction <a href="https://www.npmjs.com/package/bids-validator#quickstart" target="_blank">here.</a>
+</details>
+
 <details>
   <summary> <b>
     <img  src="https://raw.githubusercontent.com/datalad/artwork/master/logos/logo_solo.svg"
@@ -95,19 +105,18 @@ Get them fresh from your local ~~market~~:
   <p>
     You can follow the installation instruction in the
     <a href="http://handbook.datalad.org/en/latest/intro/installation.html" target="_blank">
-    Datalad handbook.
+      Datalad handbook.
     </a>
   </p>
 </details>
 
-<details><summary> <b> 📥 [OPTIONAL] BIDS validator </b> </summary><br>
-  <ul>
-      <li>Install <a href="https://nodejs.org" target="_blank">Node.js</a> (at least version 12.12.0).</li>
-      <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
-      <li>From a terminal run <code>npm install -g bids-validator</code></li>
-      <li>Run <code>bids-validator</code> to start validating datasets.</li>
-  </ul>
-  See the full instruction <a href="https://www.npmjs.com/package/bids-validator#quickstart" target="_blank">here.</a>
+<details><summary> <b> 🐳 [OPTIONAL] Docker </b> </summary><br>
+  <p>
+    Check the install instruction for your system
+    <a href="https://docs.docker.com/get-docker/" target="_blank">
+      here.
+    </a>
+  </p>
 </details>
 
 <br>
@@ -351,8 +360,53 @@ datalad save -m 'initial commit'
 <h3 id="dessert">4. Dessert: defacing, quality control, upload your data to GIN...</h3>
 
 - Defacing
-- MRIQC
-- GIN
+  - with SPM:
+    ```
+      Batch --> SPM --> Utils --> De-face images
+    ```
+    <!-- - with [bidsonym](https://github.com/PeerHerholz/BIDSonym)
+      ```bash
+      bids_dir=`pwd`
+      docker run -i --rm \
+                -v $bids_dir:/bids_dataset \
+                peerherholz/bidsonym:latest \
+                /bids_dataset \
+                group --deid quickshear \
+                --brainextraction bet --bet_frac 0.5
+      ``` -->
+- [MRIQC](https://mriqc.readthedocs.io/en/latest/)
+
+  ```bash
+  # from within the `raw` folder
+
+  bids_dir=`pwd`
+
+  output_dir=${bids_dir}/..
+
+  docker run -it --rm \
+    -v $bids_dir:/data:ro \
+    -v $output_dir:/out \
+    poldracklab/mriqc:0.16.1 /data /out \
+    --participant_label sub-01 \
+    --verbose-reports \
+    participant
+  ```
+
+- uploading your data on GIN
+
+  - create an account on [GIN](https://gin.g-node.org/)
+  - [upload your public SSH key to GIN](http://handbook.datalad.org/en/latest/basics/101-139-gin.html#prerequisites)
+    for SSH access
+    - you might need to
+      [create one first](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+  - create an empty repository on GIN
+    ```
+    datalad siblings add --name gin --url git@gin.g-node.org:/your_username/your_repository.git
+    datalad push --to gin
+    ```
+  - More information on the datalad handbook:
+    http://handbook.datalad.org/en/latest/basics/101-139-gin.html
+
 - Things to improve
 
 <br>

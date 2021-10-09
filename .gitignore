@@ -3,6 +3,7 @@
 source/*.zip
 source/multimodal*
 raw/
+derivatives/
 
 
 # node
