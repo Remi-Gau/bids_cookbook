@@ -216,11 +216,13 @@ JSON files are text files to store <code>key-value</code> pairs.
 If your editor cannot help you format them properly , you can always use the
 <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
 
+<p>
 More information on how read and write JSON files is available on the
 <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
     target="_blank">
   BIDS stater kit.
 </a>
+</p>
 
 <pre>JSON CONTENT EXAMPLE:
 
