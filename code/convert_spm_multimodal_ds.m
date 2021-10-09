@@ -31,8 +31,6 @@ function convert_spm_multimodal_ds()
   anat.model = 'Sonata';
   anat.field_strength = 1.5;
 
-  opt.indent = ' ';
-
   % URL of the data set to download
 
   working_directory = fileparts(mfilename('fullpath'));
@@ -54,10 +52,10 @@ function convert_spm_multimodal_ds()
   spm_mkdir(output_dir, ['sub-' subject_label], {'ses-eeg'}, {'eeg'});
   spm_mkdir(output_dir, ['sub-' subject_label], {'ses-meg'}, {'meg'});
 
-  convert_anat(input_dir, output_dir, opt, subject_label, anat);
-  convert_func(input_dir, output_dir, opt, subject_label, task_name, func);
-  convert_eeg(input_dir, output_dir, opt, subject_label, task_name);
-  convert_meg(input_dir, output_dir, opt, subject_label, task_name);
+  convert_anat(input_dir, output_dir, subject_label, anat);
+  convert_func(input_dir, output_dir, subject_label, task_name, func);
+  convert_eeg(input_dir, output_dir, subject_label, task_name);
+  convert_meg(input_dir, output_dir, subject_label, task_name);
 
   %% And everything else
   create_readme(output_dir);
@@ -89,7 +87,7 @@ function downwload_data(input_dir, working_directory, download)
   end
 end
 
-function convert_anat(input_dir, output_dir, opt, subject_label, anat)
+function convert_anat(input_dir, output_dir, subject_label, anat)
 
   fprintf(1, '\nconverting anat');
 
@@ -116,7 +114,7 @@ function convert_anat(input_dir, output_dir, opt, subject_label, anat)
                        json_content);
 end
 
-function convert_func(input_dir, output_dir, opt, subject_label, task_name, func)
+function convert_func(input_dir, output_dir, subject_label, task_name, func)
 
   fprintf(1, '\nconverting func');
 
@@ -149,7 +147,7 @@ function convert_func(input_dir, output_dir, opt, subject_label, task_name, func
                     strrep(bidsFile.filename, '.nii', '.mat')));
   end
 
-  create_bold_json(output_dir, task_name, opt, func);
+  create_bold_json(output_dir, task_name, func);
   create_events_tsv_file(func_input_dir, ...
                          fullfile(output_dir, bidsFile.relative_pth), ...
                          subject_label, ....
@@ -157,7 +155,7 @@ function convert_func(input_dir, output_dir, opt, subject_label, task_name, func
                          func);
 end
 
-function convert_eeg(input_dir, output_dir, opt, subject_label, task_name)
+function convert_eeg(input_dir, output_dir, subject_label, task_name)
 
   fprintf(1, '\nconverting eeg');
 
@@ -182,7 +180,7 @@ function convert_eeg(input_dir, output_dir, opt, subject_label, task_name)
 
 end
 
-function convert_meg(input_dir, output_dir, opt, subject_label, task_name)
+function convert_meg(input_dir, output_dir, subject_label, task_name)
 
   fprintf(1, '\nconverting meg');
 
@@ -215,31 +213,8 @@ function create_events_tsv_file(input_dir, output_dir, subject_label, task_name,
   fprintf(1, '\ncreating func events');
 
   for iRun = 1:2
-    load(fullfile(input_dir, ['trials_ses' num2str(iRun) '.mat']), ...
-         'names', 'onsets', 'durations');
 
-    onset_column = [];
-    duration_column = [];
-    trial_type_column = [];
-
-    for iCondition = 1:numel(names)
-      onset_column = [onset_column; onsets{iCondition}']; %#ok<*USENS>
-      duration_column = [duration_column; durations{iCondition}']; %#ok<*AGROW>
-      trial_type_column = [trial_type_column; repmat( ...
-                                                     names(iCondition), ...
-                                                     size(onsets{iCondition}', 1), 1)];
-    end
-
-    % sort trials by their presentation time
-    [onset_column, idx] = sort(onset_column);
-    duration_column = duration_column(idx);
-    trial_type_column = trial_type_column(idx, :);
-
-    onset_column = func.repetition_time * onset_column;
-
-    tsv_content = struct('onset', onset_column, ...
-                         'duration', duration_column, ...
-                         'trial_type', {cellstr(trial_type_column)});
+    input_file = fullfile(input_dir, ['trials_ses' num2str(iRun) '.mat']);
 
     file = struct('suffix', 'events', ...
                   'modality', 'func', ...
@@ -251,8 +226,9 @@ function create_events_tsv_file(input_dir, output_dir, subject_label, task_name,
                                      'run', num2str(iRun)));
     bidsFile = bids.File(file);
 
-    bids.util.tsvwrite(fullfile(output_dir, bidsFile.filename), ...
-                       tsv_content);
+    output_file = fullfile(output_dir, bidsFile.filename);
+
+    convert_func_event_mat(input_file, output_file, func)
 
   end
 
@@ -338,7 +314,7 @@ function create_datasetdescription(output_dir)
 
 end
 
-function create_bold_json(output_dir, task_name, opt, func)
+function create_bold_json(output_dir, task_name, func)
 
   task = struct('Manufacturer', func.manufacturer, ...
                 'ManufacturersModelName', func.model, ...

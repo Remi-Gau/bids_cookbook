@@ -127,16 +127,19 @@ Get them fresh from your local ~~market~~:
 
 <details><summary> <b>By now you should have this.</b> </summary><br>
   <pre>
-  └── raw
-      ├── code
-      │   └── conversion
-      ├── sourcedata
-      │   ├── multimodal_fmri
-      │   └── multimodal_smri
-      └── sub-001
-          └── ses-mri
-              ├── anat
-              └── func
+  ├── code
+  │   └── conversion
+  ├── sourcedata
+  │   ├── multimodal_fmri
+  │   │   └── fMRI
+  │   │       ├── Session1
+  │   │       └── Session2
+  │   └── multimodal_smri
+  │       └── sMRI
+  └── sub-01
+      └── ses-mri
+          ├── anat
+          └── func
   </pre>
 </details>
 
@@ -274,6 +277,23 @@ participant_id\tage\tgender\n
 sub-01\t34\tM</pre>
 </details>
 
+<details><summary> <b>By now you should have this.</b> </summary><br>
+  <pre>
+  ├── code
+  ├── sourcedata
+  ├── sub-01
+  │   └── ses-mri
+  │       ├── anat
+│ │       │   ├── sub-01_ses-mri_T1w.json
+│ │       │   └── sub-01_ses-mri_T1w.nii
+  │       └── func
+  ├── README
+  ├── participants.tsv
+  ├── participants.json
+  └── dataset_description.json
+  </pre>
+</details>
+
 #### e. BIDS is data jam: let's preserve some
 
 **[OPTIONAL]**
@@ -303,6 +323,30 @@ datalad save -m 'initial commit'
 - Put the `events.tsv` files in the func folders and give them BIDS valid names.
 - Remove duplicate `json` files to make use of the
   ["inheritance principle"](https://bids-specification.readthedocs.io/en/stable/02-common-principles.html#the-inheritance-principle)
+
+<details><summary> <b>By now you should have this.</b> </summary><br>
+  <pre>
+  ├── code
+  ├── sourcedata
+  ├── sub-01
+  │   └── ses-mri
+  │       ├── anat
+│ │       │   └── sub-01_ses-mri_T1w.nii
+  │       └── func
+  │           ├── sub-01_ses-mri_task-FaceSymmetry_run-1_bold.nii
+  │           ├── sub-01_ses-mri_task-FaceSymmetry_run-1_events.tsv
+  │           ├── sub-01_ses-mri_task-FaceSymmetry_run-2_bold.nii
+  │           └── sub-01_ses-mri_task-FaceSymmetry_run-2_events.tsv
+  ├── README
+  ├── participants.tsv
+  ├── participants.json
+  ├── T1w.json
+  ├── task-FaceSymmetry_bold.json
+  └── dataset_description.json
+  </pre>
+</details>
+
+<br>
 
 <h3 id="dessert">4. Dessert: defacing, quality control, upload your data to GIN...</h3>
 
