@@ -256,16 +256,14 @@ You can get content for those files from:
 <details><summary> 🚨 About TSV files </summary><br>
   A Tab-Separate Values (TSV) file is a text file where tab characters
   (<code>\t</code>) separate fields that are in the file.
-  <p>
-    It is structured as a table, with each column representing a field of interest,
-    and each row representing a single data point.
-  </p>
-  <p>
-    More information on how read and write TSV files is available on the
-    <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
-      target="_blank"> BIDS stater kit
-    </a>
-  </p>
+
+It is structured as a table, with each column representing a field of interest,
+and each row representing a single data point.
+
+More information on how read and write TSV files is available on the
+<a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
+      target="_blank"> BIDS stater kit </a>
+
   <pre>
     TSV CONTENT EXAMPLE:
 
