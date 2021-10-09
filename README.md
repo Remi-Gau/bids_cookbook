@@ -38,26 +38,26 @@ Get them fresh from your local ~~market~~:
 - ...
 
 <details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </summary><br>
-    <p>
-      We will work with the
-      <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">
-      multi-modal face dataset from SPM
-      </a>.
-    </p>
-    <p>
-        Very often MRI source data will be in a DICOM format and will require to be converted.
-        Here the MRI data is in "3D" Nifti format <code>.hdr/.img</code> and
-        we will need to change that to a "4D" Nifti <code>.nii</code> format.
-    </p>
-    <p>
-        This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
+  <p>
+    We will work with the
+    <a href="https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/" target="_blank">
+    multi-modal face dataset from SPM
+    </a>.
+  </p>
+  <p>
+      Very often MRI source data will be in a DICOM format and will require to be converted.
+      Here the MRI data is in "3D" Nifti format <code>.hdr/.img</code> and
+      we will need to change that to a "4D" Nifti <code>.nii</code> format.
+  </p>
+  <p>
+    This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
 
-        We also extracted some of the information about the data from the SPM manual
-        and put it into the <code>source/README.md</code>.
+    We also extracted some of the information about the data from the SPM manual
+    and put it into the <code>source/README.md</code>.
 
-        When you have DICOM data, it is usually a good idea
-        to keep the PDF of MRI acquisition parameters with your source data.
-    </p>
+    When you have DICOM data, it is usually a good idea
+    to keep the PDF of MRI acquisition parameters with your source data.
+  </p>
 </details>
 
 <details><summary> <b> 🖋 a text editor </b> </summary><br>
