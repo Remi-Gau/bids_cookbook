@@ -3,31 +3,20 @@
 - link to BEPs have a look and contribute
 - use BEPs to organize yet unsupported data -->
 
-<!-- # Converting the SPM multimodal tutorial dataset
+# Preparing a BIDS dataset by hand and from scratch
 
-Converts the multimodal dataset from SPM and to BIDS
-
-Source: https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/
-
-Requires SPM12 and
-[BIDS-matlab](https://github.com/bids-standard/bids-matlab/tree/dev).
-
-Place and unzip the zip files in `source` folder and run
-`code/code/convert_spm_multimodal_ds.m` -->
-
-# How to cook a BIDS cookbook dataset by hand and from scratch
-
-<h3>
-    This a simple recipe to convert your neuroimaging data into a valid BIDS dataset.
-</h3>
+This a simple recipe to convert your neuroimaging data into a valid BIDS
+dataset.
 
 **table of content**
+
+<!-- Add HTML hyperlinks -->
 
 - [Ingredients](#Ingredients-&-tools)
 - [Recipe](#Recipe)
 - [Useful links](#Useful-links)
 
----
+<br>
 
 <details><summary> <b>Click me...</b> </summary><br>
 
@@ -48,9 +37,11 @@ Place and unzip the zip files in `source` folder and run
 Get them fresh from your local ~~market~~:
 
 - MRI scanner 🧲
-- EEG amp 🌩
-- MEG [:octopus:](https://theupturnedmicroscope.com/comic/squid/)
+- EEG amplifier 🌩
+- MEG squid [🦑](https://theupturnedmicroscope.com/comic/squid/)
 - ...
+
+<br>
 
 <details><summary> <b> 🧠 some <code>source</code> data to be converted into BIDS </b> </summary><br>
     <p>
@@ -60,9 +51,9 @@ Get them fresh from your local ~~market~~:
         This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
     </p>
     <p>
-        Very often MRI source ata will be in a DICOM format and will required to be converted.
-        Here the MRI data is in 3D Nifti Nifti  format <code>.hdr/.img</code> and
-        we will need to change that to a 4D Nifti <code>.nii</code> format.
+        Very often MRI source data will be in a DICOM format and will require to be converted.
+        Here the MRI data is in "3D" Nifti format <code>.hdr/.img</code> and
+        we will need to change that to a "4D" Nifti <code>.nii</code> format.
     </p>
 </details>
 
@@ -77,10 +68,10 @@ Get them fresh from your local ~~market~~:
 </details>
 
 <details><summary> <b> ♻ some format conversion tools </b> </summary><br>
-    For the MRI data we will be using some of the SPM built in functions.
+    <p>
+      For the MRI data we will be using some of the `SPM` built-in functions.
+    </p>
 </details>
-
----
 
 <br>
 
@@ -88,14 +79,14 @@ Get them fresh from your local ~~market~~:
 
 ### 1. Preheat the oven: creating folders
 
-Create a `raw` folder to host your BIDS data and inside it create:
+- Create a `raw` folder to host your BIDS data and inside it create:
 
-- a `sourcedata` folder and put your `source` data in it
-- a `code/conversion` folder and put this `cookbook.md` in it
-- a subject folder: `sub-01`
-  - with session folder: `ses-mri`
-    - with an `anat` folder for the structural MRI data
-    - with an `func` folder for the functional MRI data
+  - a `sourcedata` folder and put your `source` data in it
+  - a `code/conversion` folder and put this `cookbook.md` in it
+  - a subject folder: `sub-01`
+    - with session folder: `ses-mri`
+      - with an `anat` folder for the structural MRI data
+      - with an `func` folder for the functional MRI data
 
 By now you should have this.
 
@@ -114,45 +105,77 @@ By now you should have this.
 
 ### 2. Starters: converting the anatomical MRI file
 
-- In Matlab launch SPM
+- In Matlab launch SPM: `spm fmri`.
+- In SPM:
 
-```matlab
-SPM fmri
-```
-
-- In SPM
   - `Batch --> SPM --> Utils --> 3D to 4D File conversion`
   - select the `*.img` file to convert
   - keep track of what you did by saving the batch in `code/conversion`
   - run the batch
 
-#### 2.a Cooking is not just about the taste, it is also about how things look: naming files
+#### a. Cooking is not just about the taste, it is also about how things look: naming files
 
-- extension
-- suffix
-- entity-label pairs
+- Move the `.nii` file you have just created into `sub-01/ses-mri/anat`.
+- Give this file a valid BIDS name.
 
-- filename template
+---
 
-- entity table
+BIDS filenames are composed of:
 
-#### 2.b Taste your dish while you prepare it: using the BIDS validator
+- `extension`
+- `suffix` preceded by a `_`
+- `entity`-`label` pairs separated by `_`
 
-https://bids-standard.github.io/bids-validator/
+So a BIDS filename can look like:
 
-#### 2.c Season to taste: adding missing files
+```bash
+  entity1-label1_entity2-label2_suffix.extension
+```
 
-- `dataset_description.json`
-  - from the specification
+`entities` and `labels` can only contain letters and / or numbers.
+
+For a given suffix, some entities are `required` and some others are
+`[optional]`.
+
+Entity-label pairs have a specific order in which they must appear in a
+filename.
+
+- [filename template](https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/01-magnetic-resonance-imaging-data.html#anatomy-imaging-data)
+- [entity table](https://bids-specification.readthedocs.io/en/stable/99-appendices/04-entity-table.html)
+
+#### b. Taste your dish while you prepare it: using the BIDS validator
+
+Try it directly in your
+[browser](https://bids-standard.github.io/bids-validator/).
+
+<details><summary> 🖋 Install it locally </summary><br>
+    <ul>
+        <li><a href="https://nodejs.org" target="_blank">Install Node.js (at least version 12.12.0)</a></li>
+        <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
+        <li>From a terminal run <code>npm install -g bids-validator</code></li>
+        <li>Run <code>bids-validator</code> to start validating datasets.</li>
+    </ul>
+    See the full instruction <a href="https://www.npmjs.com/package/bids-validator#quickstart" target="_blank">here.</a>
+</details>
+
+#### c. Season to taste: adding missing files
+
 - `README`
-  - template
+- `dataset_description.json`
 
-#### 2.d Icing on the cake: adding extra information
+You can get content for those files from:
 
-- `partipants.tsv` -->
+- from the [BIDS specification](https://bids-specification.readthedocs.io)
+- the BIDS starter
+  [templates](https://github.com/bids-standard/bids-starter-kit/tree/main/templates)
+
+#### d. Icing on the cake: adding extra information
+
+- Add a participants `partipants.tsv`
+
 - can use excel to create
 
-#### 2.e BIDS is data jam: let's preserve some
+#### e. BIDS is data jam: let's preserve some
 
 ```bash
 datalad create --force -c text2git .
@@ -161,7 +184,7 @@ datalad save -m 'initial commit'
 
 <br>
 
-### 3 Main course: converting the functional MRI files
+### 3. Main course: converting the functional MRI files
 
 2 runs
 
@@ -175,13 +198,15 @@ events.tsv --> script
 
 inheritance principle --> single json
 
+### 3. Dessert: converting the functional MRI files
+
 <!--
 - Defacing
 - MRIQC
 - Things to improve
 -->
 
----
+<br>
 
 ## Useful links
 
@@ -194,8 +219,8 @@ inheritance principle --> single json
 - [BIDS examples](https://github.com/bids-standard/bids-examples)
 - [Neurostars forum](https://neurostars.org/tag/bids)
 - Other conversion tutorial
-  - https://reproducibility.stanford.edu/bids-tutorial-series-part-1a/
-  - https://www.fieldtriptoolbox.org/example/bids_mous/
+  - [reproducibility.stanford.edu](https://reproducibility.stanford.edu/bids-tutorial-series-part-1a/)
+  - [fieldtrip](https://www.fieldtriptoolbox.org/example/bids_mous/)
 - [Conversion tools](https://bids.neuroimaging.io/benefits.html#converters)
 - [Datalad handbook](http://handbook.datalad.org/en/latest/index.html)
 - [GIN](https://gin.g-node.org/)

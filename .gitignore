@@ -1,4 +1,10 @@
 *.m~
 
-source/
+source/*.zip
+source/multimodal*
 raw/
+
+
+# node
+package*
+node_modules*
