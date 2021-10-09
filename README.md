@@ -51,11 +51,11 @@ Get them fresh from your local ~~market~~:
   </p>
   <p>
     This dataset contains EEG, MEG and fMRI data on the same subject within the same paradigm.
-
     We also extracted some of the information about the data from the SPM manual
     and put it into the <code>source/README.md</code>.
-
-    When you have DICOM data, it is usually a good idea
+  </p>
+  <p>
+    Similarly when you have DICOM data, it is usually a good idea
     to keep the PDF of MRI acquisition parameters with your source data.
   </p>
 </details>
