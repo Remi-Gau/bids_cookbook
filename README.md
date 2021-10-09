@@ -91,7 +91,7 @@ Get them fresh from your local ~~market~~:
   </p>
 </details>
 
-<details><summary> 📥 [OPTIONAL] BIDS validator </summary><br>
+<details><summary> <b> 📥 [OPTIONAL] BIDS validator <b> </summary><br>
   <ul>
       <li><a href="https://nodejs.org" target="_blank">Install Node.js (at least version 12.12.0)</a></li>
       <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
