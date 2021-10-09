@@ -1,7 +1,8 @@
 <!-- TODO
 - conversion script for MEG events
 - link to BEPs have a look and contribute
-- use BEPs to organize yet unsupported data -->
+- use BEPs to organize yet unsupported data
+-->
 
 <h1 style="width: 120%"> Preparing a BIDS dataset by hand and from scratch </h1>
 
@@ -15,6 +16,10 @@
 
 - [Ingredients](#ingredients-and-tools)
 - [Recipe](#recipe)
+  - [Preheat the oven: folder structure](#preheat)
+  - [Starters: anatomical data](#starters)
+  - [Main course: functional data](#main-course)
+  - [Dessert: defacing, QA...](#dessert)
 - [Useful links](#useful-links)
 
 <details><summary> <b>CLICK ME</b> </summary><br>
@@ -109,7 +114,7 @@ Get them fresh from your local ~~market~~:
 
 ## Recipe
 
-### 1. Preheat the oven: creating folders
+<h3 id="preheat">1. Preheat the oven: creating folders</h3>
 
 - Create a `raw` folder to host your BIDS data and inside it create:
 
@@ -137,7 +142,7 @@ Get them fresh from your local ~~market~~:
 
 <br>
 
-### 2. Starters: converting the anatomical MRI file
+<h3 id="starters">2. Starters: converting the anatomical MRI file</h3>
 
 - In Matlab launch SPM: `spm fmri`.
 - In SPM:
@@ -213,7 +218,7 @@ You can get content for those files from:
 <details><summary> 🚨 About JSON files </summary><br>
 JSON files are text files to store <code>key-value</code> pairs.
 
-If your editor cannot help you format them properly , you can always use the
+If your editor cannot help you format them properly, you can always use the
 <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
 
 <p>
@@ -247,7 +252,7 @@ More information on how read and write JSON files is available on the
 
 #### d. Icing on the cake: adding extra information
 
-- Add `T1w.json` file.
+- Add `T1w.json` file. Use information from `source/README.md ` to create it.
 - Add a participants `participants.tsv`. You can use excel or google sheet to
   create them.
 
@@ -283,7 +288,7 @@ datalad save -m 'initial commit'
 
 <br>
 
-### 3. Main course: converting the functional MRI files
+<h3 id="main-course">3. Main course: converting the functional MRI files</h3>
 
 - Convert the 2 runs of made of 3D series of `*.img` into 2 single 4D `*.nii`
   images by using the same SPM module used for the anatomical conversion.
@@ -298,13 +303,12 @@ datalad save -m 'initial commit'
 - Create `events.tsv` --> function
 - Remove duplicate `json` files ("inheritance principle")
 
-### 4. Dessert: defacing, quality control, upload your data to GIN
+<h3 id="dessert">4. Dessert: defacing, quality control, upload your data to GIN...</h3>
 
-<!--
 - Defacing
 - MRIQC
+- GIN
 - Things to improve
--->
 
 <br>
 
