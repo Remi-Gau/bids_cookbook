@@ -223,27 +223,25 @@ You can get content for those files from:
       BIDS stater kit.
     </a>
   <p>
-  <pre>
-    JSON CONTENT EXAMPLE:
+<pre>JSON CONTENT EXAMPLE:
 
-    {
-      "key": "value",
-      "key2": "value2",
-      "key3": {
-        "subkey1": "subvalue1"
-      },
-      "array": [ 1, 2, 3 ],
-      "boolean": true,
-      "color": "gold",
-      "null": null,
-      "number": 123,
-      "object": {
-        "a": "b",
-        "c": "d"
-      },
-      "string": "Hello World"
-    }
-  </pre>
+{
+  "key": "value",
+  "key2": "value2",
+  "key3": {
+    "subkey1": "subvalue1"
+  },
+  "array": [ 1, 2, 3 ],
+  "boolean": true,
+  "color": "gold",
+  "null": null,
+  "number": 123,
+  "object": {
+    "a": "b",
+    "c": "d"
+  },
+  "string": "Hello World"
+}</pre>
 </details>
 
 #### d. Icing on the cake: adding extra information
@@ -263,13 +261,10 @@ More information on how read and write TSV files is available on the
 <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
       target="_blank"> BIDS stater kit </a>
 
-  <pre>
-    TSV CONTENT EXAMPLE:
+<pre>TSV CONTENT EXAMPLE:
 
-    participant_id\tage\tgender\n
-    sub-01\t34\tM
-
-  </pre>
+participant_id\tage\tgender\n
+sub-01\t34\tM</pre>
 </details>
 
 #### e. BIDS is data jam: let's preserve some
