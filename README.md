@@ -3,18 +3,16 @@
 - link to BEPs have a look and contribute
 - use BEPs to organize yet unsupported data -->
 
-# Preparing a BIDS dataset by hand and from scratch
+<h1 style="width: 110%"> Preparing a BIDS dataset by hand and from scratch </h1>
 
 This a simple recipe to convert your neuroimaging data into a valid BIDS
 dataset.
 
-**table of content**
+## Table of content
 
-<!-- TODO Add HTML hyperlinks -->
-
-- [Ingredients](#Ingredients-&-tools)
-- [Recipe](#Recipe)
-- [Useful links](#Useful-links)
+- [Ingredients](#ingredients-and-tools)
+- [Recipe](#recipe)
+- [Useful links](#useful-links)
 
 <details><summary> <b>Click me...</b> </summary><br>
 
@@ -30,7 +28,7 @@ dataset.
 
 <br>
 
-## Ingredients & tools
+## Ingredients and tools
 
 Get them fresh from your local ~~market~~:
 
@@ -72,22 +70,35 @@ Get them fresh from your local ~~market~~:
 
 <details><summary> <b> ♻ some format conversion tools </b> </summary><br>
     <p>
-      For the MRI data we will be using some of the SPM built-in functions to convert Nifti files into the proper format.
+      For the MRI data we will be using some of the SPM built-in functions
+      to convert Nifti files into the proper format.
     </p>
 </details>
 
 <details>
   <summary> <b>
-  <img src="https://raw.githubusercontent.com/datalad/artwork/master/logos/logo_solo.svg" height="12" />
-  [OPTIONAL] Datalad to version control your data
+    <img  src="https://raw.githubusercontent.com/datalad/artwork/master/logos/logo_solo.svg"
+          height="14"
+          style="padding: 0; margin: 0"/>
+    [OPTIONAL] Datalad to version control your data
   </b> </summary> <br>
 
   <p>
     You can follow the installation instruction in the
     <a href="http://handbook.datalad.org/en/latest/intro/installation.html" target="_blank">
-    Datalad handbook
+    Datalad handbook.
     </a>
   </p>
+</details>
+
+<details><summary> 📥 [OPTIONAL] BIDS validator </summary><br>
+  <ul>
+      <li><a href="https://nodejs.org" target="_blank">Install Node.js (at least version 12.12.0)</a></li>
+      <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
+      <li>From a terminal run <code>npm install -g bids-validator</code></li>
+      <li>Run <code>bids-validator</code> to start validating datasets.</li>
+  </ul>
+  See the full instruction <a href="https://www.npmjs.com/package/bids-validator#quickstart" target="_blank">here.</a>
 </details>
 
 <br>
@@ -99,24 +110,26 @@ Get them fresh from your local ~~market~~:
 - Create a `raw` folder to host your BIDS data and inside it create:
 
   - a `sourcedata` folder and put your `source` data in it
-  - a `code/conversion` folder and put this `cookbook.md` in it
+  - a `code/conversion` folder and put this `README.md` in it
   - a subject folder: `sub-01`
     - with session folder: `ses-mri`
       - with an `anat` folder for the structural MRI data
       - with an `func` folder for the functional MRI data
 
-By now you should have this.
-
-```
-└── raw
-    ├── code
-    │   └── conversion
-    ├── sourcedata
-    └── sub-001
-        └── ses-mri
-            ├── anat
-            └── func
-```
+<details><summary> <b>By now you should have this.</b> </summary><br>
+  <pre>
+  └── raw
+      ├── code
+      │   └── conversion
+      ├── sourcedata
+      │   ├── multimodal_fmri
+      │   └── multimodal_smri
+      └── sub-001
+          └── ses-mri
+              ├── anat
+              └── func
+  </pre>
+</details>
 
 <br>
 
@@ -126,7 +139,9 @@ By now you should have this.
 - In SPM:
 
   - use the SPM 3D to 4D module:
-    `Batch --> SPM --> Utils --> 3D to 4D File conversion`
+    ```
+      Batch --> SPM --> Utils --> 3D to 4D File conversion
+    ```
   - select the `*.img` file to convert
   - keep track of what you did by saving the batch in `code/conversion`
   - run the batch
@@ -151,7 +166,7 @@ By now you should have this.
       So a BIDS filename can look like: <code>entity1-label1_entity2-label2_suffix.extension</code>
     </li>
     <li>
-      <code>entities</code> and <code>labels</code> can only contain letters and / or numbers <code>[a-zA-Z0-9]</code>.
+      <code>entities</code> and <code>labels</code> can only contain letters and / or numbers.
     </li>
     <li>
       For a given suffix, some entities are <code>required</code> and some others are <code>[optional]</code>.
@@ -175,16 +190,6 @@ or optional, the BIDS specification has:
 
 Try it directly in your
 [browser](https://bids-standard.github.io/bids-validator/).
-
-<details><summary> 📥 Install it locally </summary><br>
-  <ul>
-      <li><a href="https://nodejs.org" target="_blank">Install Node.js (at least version 12.12.0)</a></li>
-      <li>Update <code>npm</code> to be at least version 7 (<code>npm install --global npm@^7</code>)</li>
-      <li>From a terminal run <code>npm install -g bids-validator</code></li>
-      <li>Run <code>bids-validator</code> to start validating datasets.</li>
-  </ul>
-  See the full instruction <a href="https://www.npmjs.com/package/bids-validator#quickstart" target="_blank">here.</a>
-</details>
 
 #### c. Season to taste: adding missing files
 
@@ -275,7 +280,8 @@ datalad save -m 'initial commit'
 - Make sure to use enter the repetition time in the `interscan interval`.
 - Give the output files valid BIDS filenames. You will need to use `task` and
   the `run` entities.
-- Use the BIDS validator and any eventual missing file.
+- Use the BIDS validator and any eventual missing file (like `*_bold.json`
+  file).
 
 <!-- TODO -->
 
@@ -310,3 +316,5 @@ datalad save -m 'initial commit'
 - [GIN](https://gin.g-node.org/)
 
 ---
+
+[**^**](#table-of-content)
