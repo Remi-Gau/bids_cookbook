@@ -211,18 +211,18 @@ You can get content for those files from:
 > overview of the content of your dataset.
 
 <details><summary> 🚨 About JSON files </summary><br>
-  <p>JSON files are text files to store <code>key-value</code> pairs.</p>
-  <p>
-    If your editor cannot help you format them properly , you can always use the
-    <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
-  </p>
-  <p>
-    More information on how read and write JSON files is available on the
-    <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
-        target="_blank">
-      BIDS stater kit.
-    </a>
-  <p>
+<p>JSON files are text files to store <code>key-value</code> pairs.</p>
+<p>
+  If your editor cannot help you format them properly , you can always use the
+  <a href="https://jsoneditoronline.org/" target="_blank"> online editor.</a>
+</p>
+<p>
+  More information on how read and write JSON files is available on the
+  <a  href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#json-files"
+      target="_blank">
+    BIDS stater kit.
+  </a>
+<p>
   <pre>
     JSON CONTENT EXAMPLE:
 
@@ -243,6 +243,7 @@ You can get content for those files from:
       },
       "string": "Hello World"
     }
+
   </pre>
 </details>
 
@@ -253,25 +254,26 @@ You can get content for those files from:
   create them.
 
 <details><summary> 🚨 About TSV files </summary><br>
-  <p>
-    A Tab-Separate Values (TSV) file is a text file
-    where tab characters (<code>\t</code>) separate fields that are in the file.
-  </p>
-  <p>
-    It is structured as a table, with each column representing a field of interest,
-    and each row representing a single datapoint.
-  </p>
-  <p>
-    More information on how read and write TSV files is available on the
-    <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
-      target="_blank"> BIDS stater kit
-    </a>
-  </p>
+<p>
+  A Tab-Separate Values (TSV) file is a text file
+  where tab characters (<code>\t</code>) separate fields that are in the file.
+</p>
+<p>
+  It is structured as a table, with each column representing a field of interest,
+  and each row representing a single datapoint.
+</p>
+<p>
+  More information on how read and write TSV files is available on the
+  <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
+    target="_blank"> BIDS stater kit
+  </a>
+</p>
   <pre>
     TSV CONTENT EXAMPLE:
 
-    participant_id\tage\tgender
+    participant_id\tage\tgender\n
     sub-01\t34\tM
+
   </pre>
 </details>
 
