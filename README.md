@@ -250,15 +250,16 @@ More information on how read and write JSON files is available on the
   create them.
 
 <details><summary> 🚨 About TSV files </summary><br>
-  A Tab-Separate Values (TSV) file is a text file where tab characters
-  (<code>\t</code>) separate fields that are in the file.
+A Tab-Separate Values (TSV) file is a text file where tab characters
+(<code>\t</code>) separate fields that are in the file.
 
 It is structured as a table, with each column representing a field of interest,
 and each row representing a single data point.
 
-More information on how read and write TSV files is available on the
+<p>More information on how read and write TSV files is available on the
 <a href="https://github.com/bids-standard/bids-starter-kit/wiki/Metadata-file-formats#tsv-files"
       target="_blank"> BIDS stater kit </a>
+</p>
 
 <pre>TSV CONTENT EXAMPLE:
 
