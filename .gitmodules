@@ -1,4 +1,4 @@
 [submodule "bids-matlab"]
-	path = bids-matlab
+	path = lib/bids-matlab
 	url = https://github.com/bids-standard/bids-matlab.git
 	datalad-url = https://github.com/bids-standard/bids-matlab.git

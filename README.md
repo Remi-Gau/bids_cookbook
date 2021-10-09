@@ -252,7 +252,7 @@ More information on how read and write JSON files is available on the
 
 #### d. Icing on the cake: adding extra information
 
-- Add `T1w.json` file. Use information from `source/README.md ` to create it.
+- Add `T1w.json` file. Use information from `source/README.md` to create it.
 - Add a participants `participants.tsv`. You can use excel or google sheet to
   create them.
 
@@ -297,11 +297,12 @@ datalad save -m 'initial commit'
   the `run` entities.
 - Use the BIDS validator and any eventual missing file (like `*_bold.json`
   file).
-
-<!-- TODO -->
-
-- Create `events.tsv` --> function
-- Remove duplicate `json` files ("inheritance principle")
+- Create `events.tsv`: you can run the function
+  `multimodal/code/convert_func_event_mat.m` to help you convert the files
+  `multimodal/source/multimodal_fmri/fMRI/trials_ses*.mat`
+- Put the `events.tsv` files in the func folders and give them BIDS valid names.
+- Remove duplicate `json` files to make use of the
+  ["inheritance principle"](https://bids-specification.readthedocs.io/en/stable/02-common-principles.html#the-inheritance-principle)
 
 <h3 id="dessert">4. Dessert: defacing, quality control, upload your data to GIN...</h3>
 
