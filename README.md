@@ -243,7 +243,6 @@ You can get content for those files from:
       },
       "string": "Hello World"
     }
-
   </pre>
 </details>
 
