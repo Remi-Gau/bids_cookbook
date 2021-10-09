@@ -359,55 +359,60 @@ datalad save -m 'initial commit'
 
 <h3 id="dessert">4. Dessert: defacing, quality control, upload your data to GIN...</h3>
 
-- Defacing
-  - with SPM:
-    ```
-      Batch --> SPM --> Utils --> De-face images
-    ```
-    <!-- - with [bidsonym](https://github.com/PeerHerholz/BIDSonym)
-      ```bash
-      bids_dir=`pwd`
-      docker run -i --rm \
-                -v $bids_dir:/bids_dataset \
-                peerherholz/bidsonym:latest \
-                /bids_dataset \
-                group --deid quickshear \
-                --brainextraction bet --bet_frac 0.5
-      ``` -->
-- [MRIQC](https://mriqc.readthedocs.io/en/latest/)
+#### Defacing
 
-  ```bash
-  # from within the `raw` folder
-
-  bids_dir=`pwd`
-
-  output_dir=${bids_dir}/..
-
-  docker run -it --rm \
-    -v $bids_dir:/data:ro \
-    -v $output_dir:/out \
-    poldracklab/mriqc:0.16.1 /data /out \
-    --participant_label sub-01 \
-    --verbose-reports \
-    participant
+- with SPM:
   ```
+    Batch --> SPM --> Utils --> De-face images
+  ```
+  <!-- - with [bidsonym](https://github.com/PeerHerholz/BIDSonym)
+    ```bash
+    bids_dir=`pwd`
+    docker run -i --rm \
+              -v ${bids_dir}:/bids_dataset \
+              peerherholz/bidsonym:latest \
+              /bids_dataset \
+              group --deid quickshear \
+              --brainextraction bet --bet_frac 0.5
+    ``` -->
 
-- uploading your data on GIN
+#### [MRIQC](https://mriqc.readthedocs.io/en/latest/)
 
-  - create an account on [GIN](https://gin.g-node.org/)
-  - [upload your public SSH key to GIN](http://handbook.datalad.org/en/latest/basics/101-139-gin.html#prerequisites)
-    for SSH access
-    - you might need to
-      [create one first](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-  - create an empty repository on GIN
-    ```
-    datalad siblings add --name gin --url git@gin.g-node.org:/your_username/your_repository.git
-    datalad push --to gin
-    ```
-  - More information on the datalad handbook:
-    http://handbook.datalad.org/en/latest/basics/101-139-gin.html
+```bash
+# from within the `raw` folder
 
-- Things to improve
+bids_dir=`pwd`
+
+output_dir=${bids_dir}/../derivatives/mriqc
+
+docker run -it --rm \
+  -v ${bids_dir}:/data:ro \
+  -v ${output_dir}:/out \
+  poldracklab/mriqc:0.16.1 /data /out \
+  --participant_label sub-01 \
+  --verbose-reports \
+  participant
+```
+
+#### uploading your data on GIN
+
+- create an account on [GIN](https://gin.g-node.org/)
+- [upload your public SSH key to GIN](http://handbook.datalad.org/en/latest/basics/101-139-gin.html#prerequisites)
+  for SSH access
+  - you might need to
+    [create one first](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- create an empty repository on GIN
+  ```
+  datalad siblings add --name gin --url git@gin.g-node.org:/your_username/your_repository.git
+  datalad push --to gin
+  ```
+- More information on the
+  [datalad handbook](http://handbook.datalad.org/en/latest/basics/101-139-gin.html)
+
+#### Things to improve ?
+
+  <!-- - Do not version control data before defacing. -->
+  <!-- - Do not version control source in the raw dataset. -->
 
 <br>
 

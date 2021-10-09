@@ -3,7 +3,7 @@
 Data source: https://www.fil.ion.ucl.ac.uk/spm/data/mmfaces/
 
 The following information was extracted from the SPM8 manual:
-https://www.fil.ion.ucl.ac.uk/spm/doc/spm8_manual.pdf#Chap:data:multimodal
+https://www.fil.ion.ucl.ac.uk/spm/doc/spm8_manual.pdf
 
 To convert the data, place and unzip the zip files in this `source` folder and
 run `../code/convert_spm_multimodal_ds.m` with Matlab or Octave. This requires
