@@ -243,7 +243,9 @@ You can get content for those files from:
       },
       "string": "Hello World"
     }
+
   </pre>
+
 </details>
 
 #### d. Icing on the cake: adding extra information
@@ -274,6 +276,7 @@ You can get content for those files from:
     sub-01\t34\tM
 
   </pre>
+
 </details>
 
 #### e. BIDS is data jam: let's preserve some
