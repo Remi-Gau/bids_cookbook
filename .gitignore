@@ -1,4 +1,7 @@
 *.m~
+*.tsv
+*.nii.gz
+*.xlsx*
 
 source/*.zip
 source/multimodal*
